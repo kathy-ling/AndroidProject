@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_user_info"
+            android:icon="@drawable/orders"
+            android:title="userinfo" />
+        <item
+            android:id="@+id/nav_orders"
+            android:icon="@drawable/orders"
+            android:title="orders" />
+        <item
+            android:id="@+id/nav_tour"
+            android:icon="@drawable/orders"
+            android:title="tour" />
+        <item
+            android:id="@+id/nav_service"
+            android:icon="@drawable/services"
+            android:title="service" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/setting"
+            android:title="manage" />
+    </group>
+
+</menu>
