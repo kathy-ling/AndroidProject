@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tian.tourguideproject">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,6 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".com.example.SlidingMenuActivity.UserInfoActivity" />
+        <activity android:name=".com.example.SlidingMenuActivity.EditUserNameActivity" />
+        <activity android:name=".com.example.SlidingMenuActivity.SettingActivity" />
+        <activity android:name=".com.example.SlidingMenuActivity.EditUserPasswdActivity"/>
+        <activity android:name=".com.example.SlidingMenuActivity.OrdersActivity"/>
+
     </application>
 
 </manifest>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/custom_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:paddingTop="15dp"
+        >
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            >
+            <TableRow android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:text="输入手机号"
+                    />
+                <EditText
+                    android:id="@+id/edit_user_phone_txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:inputType="phone"
+                    android:maxLength="11"
+                    android:background="@android:drawable/edit_text"
+                    />
+            </TableRow>
+
+            <TableRow android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:text="重置密码"
+                    />
+                <EditText
+                    android:id="@+id/edit_userPsw"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@android:drawable/edit_text"
+                    android:inputType="textPassword"
+                    />
+            </TableRow>
+            <TableRow android:gravity="center">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:text="确认密码"
+                    />
+                <EditText
+                    android:id="@+id/edit_userPsw_again"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:background="@android:drawable/edit_text"
+                    android:inputType="textPassword"
+                    />
+            </TableRow>
+        </TableLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/save_userpsw_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:text="确 认"
+        android:textColor="#ffffff"
+        android:background="#0099ff"
+        />
+
+</LinearLayout>

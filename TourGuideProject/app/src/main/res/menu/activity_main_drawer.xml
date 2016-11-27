@@ -2,27 +2,28 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_user_info"
-            android:icon="@drawable/orders"
-            android:title="userinfo" />
+            android:icon="@drawable/ic_account_black"
+            android:title="个人信息" />
         <item
             android:id="@+id/nav_orders"
-            android:icon="@drawable/orders"
-            android:title="orders" />
+            android:icon="@drawable/ic_orders_black"
+            android:title="订单查看" />
         <item
             android:id="@+id/nav_tour"
-            android:icon="@drawable/orders"
-            android:title="tour" />
+            android:icon="@drawable/ic_tour_black"
+            android:title="轨迹" />
         <item
             android:id="@+id/nav_service"
-            android:icon="@drawable/services"
-            android:title="service" />
+            android:icon="@drawable/ic_live_help_black"
+            android:title="用户服务" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/setting"
-            android:title="manage" />
+            android:icon="@drawable/ic_settings_black"
+            android:title="设置" />
     </group>
 
 </menu>

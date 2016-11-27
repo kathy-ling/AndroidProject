@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="65dp"
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp">
+
+    <!--筛选条件-->
+    <include
+        layout="@layout/guide_reserve_selector"/>
+
+    <!--显示已经选择的条件-->
+    <LinearLayout
+        android:id="@+id/have_chosen_layout"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp">
+        <TextView
+            android:id="@+id/have_chosen_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已选条件："/>
+        <LinearLayout
+            android:id="@+id/chosen_language_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/orange_border_white_in">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="中文"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_delete"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/chosen_sex_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/orange_border_white_in">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="男"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_delete"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/chosen_age_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/orange_border_white_in">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp"
+                android:text="20-30"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_delete"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--显示符合条件的导游的数量-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginTop="5dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/black_border_gray_in">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="共计 "
+            android:textColor="@color/colorDark"/>
+        <TextView
+            android:id="@+id/guides_meet_condition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorOrange"
+            android:text="10"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" 位导游符合条件"
+            android:textColor="@color/colorDark"/>
+    </LinearLayout>
+
+
+    <include
+        layout="@layout/guide_reserve_guide_list"
+        />
+
+</LinearLayout>

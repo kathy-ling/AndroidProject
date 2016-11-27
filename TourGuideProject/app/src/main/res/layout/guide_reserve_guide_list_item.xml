@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="130dp"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp">
+
+    <ImageView
+        android:id="@+id/guide_image_list_item"
+        android:layout_width="150dp"
+        android:layout_height="130dp"
+        android:src="@drawable/linkeer"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        >
+        <TextView
+            android:id="@+id/guide_name_list_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="先汪"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimaryDark"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="工作年限："
+                android:textColor="@color/colorDark"/>
+            <TextView
+                android:id="@+id/guide_work_age_list_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5年"
+                android:textColor="@color/colorDark"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自我介绍："
+                android:textColor="@color/colorDark"/>
+            <TextView
+                android:id="@+id/guide_intro_list_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lines="2"
+                android:text="UI而法rrbbbbbbbbbbbbbbbbbbbbbbbbrr"
+                android:maxLines="2"
+                android:textColor="@color/colorDark"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            >
+            <TextView
+                android:id="@+id/guide_price_list_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="￥300元/天"
+                android:textColor="@color/colorOrange"/>
+
+            <TextView
+                android:id="@+id/check_guide_list_item"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"
+                android:text="查  看"
+                android:textSize="15sp"
+                android:textColor="@color/colorPrimary"
+                android:background="@color/colorBlue"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

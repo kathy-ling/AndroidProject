@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/custom_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <include
+        layout="@layout/orders_top_tab"/>
+
+    <!--ViewPager继承自ViewGroup，也就是ViewPager是一个容器类，可以包含其他的View类。-->
+    <!--ViewPager引入的时候必须写完整android.support.v4.view.ViewPager-->
+    <android.support.v4.view.ViewPager
+        android:id="@+id/ordersViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>
