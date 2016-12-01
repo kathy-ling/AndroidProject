@@ -22,10 +22,11 @@
             android:layout_height="match_parent" />
 
          <!--The main content view where fragments are loaded -->
-        <FrameLayout
-            android:id="@+id/content_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <!--<FrameLayout-->
+            <!--android:id="@+id/content_fragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+
     </LinearLayout>
 
     <!--抽屉式导航栏的内容-->

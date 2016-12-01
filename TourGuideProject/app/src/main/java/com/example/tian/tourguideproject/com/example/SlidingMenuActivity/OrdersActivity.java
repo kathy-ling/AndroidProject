@@ -1,12 +1,10 @@
 package com.example.tian.tourguideproject.com.example.SlidingMenuActivity;
 
-import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,7 +14,7 @@ import com.example.tian.tourguideproject.com.example.SlidingMenuFragment.AllOrde
 import com.example.tian.tourguideproject.com.example.SlidingMenuFragment.BeConfirmOrdersFragment;
 import com.example.tian.tourguideproject.com.example.SlidingMenuFragment.BeDealOrdersFragment;
 import com.example.tian.tourguideproject.com.example.SlidingMenuFragment.BeEvaluateOrdersFragment;
-import com.example.tian.tourguideproject.com.example.adapter.MyOrdersFragmentAdapter;
+import com.example.tian.tourguideproject.com.example.adapter.MyFragmentAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,9 +100,9 @@ public class OrdersActivity extends FragmentActivity implements
         fragmentList.add(beConfirmOrdersFragment);
         fragmentList.add(beEvaluateOrdersFragment);
 
-        MyOrdersFragmentAdapter myOrdersFragmentAdapter = new MyOrdersFragmentAdapter(
+        MyFragmentAdapter myFragmentAdapter = new MyFragmentAdapter(
                 getSupportFragmentManager(), fragmentList);
-        myViewPager.setAdapter(myOrdersFragmentAdapter);
+        myViewPager.setAdapter(myFragmentAdapter);
 
         myViewPager.setCurrentItem(0);
         tabAllOrders.setTextColor(Color.RED);

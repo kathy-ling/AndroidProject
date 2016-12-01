@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,13 +19,16 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tian.tourguideproject.com.example.ReserveGuideFragment;
+import com.example.tian.tourguideproject.com.example.Fragments.ReleaseOrderFragment;
+import com.example.tian.tourguideproject.com.example.Fragments.ReserveGuideFragment;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.OrdersActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.SettingActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.UserInfoActivity;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+
+    private long mBackTime;
 
     private Toolbar toolbar;
     private DrawerLayout drawer;
@@ -33,12 +37,15 @@ public class MainActivity extends AppCompatActivity
 
 
     private TextView barReserveTxt;
+    private TextView barReleaseOrderTxt;
 
     private  Fragment currentFragment = null;
 
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
     private ActionBarDrawerToggle toggle;
+
+    public static MainActivity mainActivity;
 
 
     @Override
@@ -48,25 +55,21 @@ public class MainActivity extends AppCompatActivity
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
 
+        mainActivity = this;
+
         OpenDrawer();
 
         /**
          * 顶部bar中的 “预约”
          */
         barReserveTxt = (TextView)findViewById(R.id.app_bar_reserve);
-        barReserveTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                barReserveTxt.setTextColor(Color.RED);
+        barReserveTxt.setOnClickListener(this);
 
-                currentFragment = new ReserveGuideFragment();
-                if (currentFragment != null) {
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.content_fragment, currentFragment);
-                    transaction.commit();
-                }
-            }
-        });
+        /**
+         * 顶部bar中的发布订单
+         */
+        barReleaseOrderTxt = (TextView)findViewById(R.id.app_bar_release_order);
+        barReleaseOrderTxt.setOnClickListener(this);
     }
 
     /**
@@ -175,5 +178,58 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()){
+            case R.id.app_bar_reserve:
+                /**顶部bar中的 “预约”*/
+                barReserveTxt.setTextColor(Color.RED);
+                barReleaseOrderTxt.setTextColor(Color.BLACK);
+
+                currentFragment = new ReserveGuideFragment();
+                if (currentFragment != null) {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.content_fragment, currentFragment);
+                    transaction.commit();
+                }
+                break;
+            case R.id.app_bar_release_order:
+                /**顶部bar中的发布订单*/
+                barReleaseOrderTxt.setTextColor(Color.RED);
+                barReserveTxt.setTextColor(Color.BLACK);
+
+                currentFragment = new ReleaseOrderFragment();
+                if (currentFragment != null) {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.content_fragment, currentFragment);
+                    transaction.commit();
+                }
+                break;
+            default:
+                break;
+        }
+
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mBackTime) > 2000) {
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                mBackTime = System.currentTimeMillis();
+
+                getFragmentManager().popBackStack();
+            } else {
+                this.finish();
+            }
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }

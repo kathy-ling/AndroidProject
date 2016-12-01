@@ -28,6 +28,8 @@
         <activity android:name=".com.example.SlidingMenuActivity.EditUserPasswdActivity"/>
         <activity android:name=".com.example.SlidingMenuActivity.OrdersActivity"/>
 
+        <activity android:name=".com.example.GuideInfosActivity" />
+        <activity android:name=".com.example.GuideReserveInfoActivity"/>
     </application>
 
 </manifest>

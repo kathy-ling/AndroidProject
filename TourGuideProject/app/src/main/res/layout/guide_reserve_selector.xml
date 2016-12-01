@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/black_border_white_in">
 
+    <!--选择语种-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -14,9 +15,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="语种:"
-            android:textSize="18sp"
             android:textColor="@color/colorDark"/>
         <RadioGroup
+            android:id="@+id/language_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -25,7 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="不限"/>
+                android:text="不限"
+                android:checked="true"/>
             <RadioButton
                 android:id="@+id/language_chinese_radio"
                 android:layout_width="wrap_content"
@@ -41,6 +43,7 @@
         </RadioGroup>
     </LinearLayout>
 
+    <!--选择性别-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -50,9 +53,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="性别:"
-            android:textSize="18sp"
             android:textColor="@color/colorDark"/>
         <RadioGroup
+            android:id="@+id/sex_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -61,7 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="不限"/>
+                android:text="不限"
+                android:checked="true"/>
             <RadioButton
                 android:id="@+id/sex_male_radio"
                 android:layout_width="wrap_content"
@@ -77,6 +81,7 @@
         </RadioGroup>
     </LinearLayout>
 
+    <!--选择年龄-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -86,38 +91,79 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:text="年龄:"
-            android:textSize="18sp"
             android:textColor="@color/colorDark"/>
-        <RadioGroup
+
+        <com.example.tian.tourguideproject.com.example.MyRadioGroup
+            android:id="@+id/age_radio_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-            <RadioButton
-                android:id="@+id/age_all_radio"
+            android:layout_height="wrap_content">
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="不限"/>
-            <RadioButton
-                android:id="@+id/age_20_30_radio"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/age_all_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="不限"
+                    android:checked="true"/>
+                <RadioButton
+                    android:id="@+id/age_20_30_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="20-30"/>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="20-30"/>
-            <RadioButton
-                android:id="@+id/age_30_40_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="30-40"/>
-            <RadioButton
-                android:id="@+id/age_40_50_radio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:text="40-50"/>
-        </RadioGroup>
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/age_30_40_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="30-40"/>
+                <RadioButton
+                    android:id="@+id/age_40_50_radio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="40-50"/>
+            </LinearLayout>
+        </com.example.tian.tourguideproject.com.example.MyRadioGroup>
+
+        <!--<RadioGroup-->
+            <!--android:id="@+id/age_radio_group"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--&gt;-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/age_all_radio"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:text="不限"-->
+                <!--android:checked="true"/>-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/age_20_30_radio"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:text="20-30"/>-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/age_30_40_radio"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:text="30-40"/>-->
+            <!--<RadioButton-->
+                <!--android:id="@+id/age_40_50_radio"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:text="40-50"/>-->
+        <!--</RadioGroup>-->
     </LinearLayout>
 
 </LinearLayout>

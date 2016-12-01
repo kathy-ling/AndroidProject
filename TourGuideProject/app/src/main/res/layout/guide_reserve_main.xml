@@ -13,66 +13,98 @@
 
     <!--显示已经选择的条件-->
     <LinearLayout
-        android:id="@+id/have_chosen_layout"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginTop="5dp">
-        <TextView
-            android:id="@+id/have_chosen_txt"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/have_chosen_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="已选条件："/>
-        <LinearLayout
-            android:id="@+id/chosen_language_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:background="@drawable/orange_border_white_in">
+            android:layout_marginTop="5dp"
+            >
             <TextView
+                android:id="@+id/have_chosen_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="3dp"
-                android:paddingRight="3dp"
-                android:text="中文"/>
-            <ImageView
+                android:text="已选条件："/>
+            <LinearLayout
+                android:id="@+id/chosen_language_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_delete"/>
+                android:layout_height="20dp"
+                android:background="@drawable/orange_border_white_in">
+                <TextView
+                    android:id="@+id/chosen_language_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_delete"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/chosen_sex_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/orange_border_white_in">
+                <TextView
+                    android:id="@+id/chosen_sex_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_delete"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/chosen_age_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/orange_border_white_in">
+                <TextView
+                    android:id="@+id/chosen_age_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp"
+                    />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_delete"/>
+            </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
-            android:id="@+id/chosen_sex_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/orange_border_white_in">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="3dp">
             <TextView
+                android:id="@+id/search_guide_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="3dp"
-                android:paddingRight="3dp"
-                android:text="男"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_delete"/>
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/chosen_age_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:background="@drawable/orange_border_white_in">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="3dp"
-                android:paddingRight="3dp"
-                android:text="20-30"/>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_delete"/>
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@color/colorOrange"
+                android:text="查  询"
+                android:textSize="18sp"
+                android:textColor="@color/colorPrimary"/>
         </LinearLayout>
     </LinearLayout>
+
 
     <!--显示符合条件的导游的数量-->
     <LinearLayout
@@ -92,7 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorOrange"
-            android:text="10"/>
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -14,11 +14,11 @@ import java.util.List;
  * 适用于少量且相对静态的页面
  */
 
-public class MyOrdersFragmentAdapter extends FragmentPagerAdapter {
+public class MyFragmentAdapter extends FragmentPagerAdapter {
 
     private List<Fragment> fragmentList;
 
-    public MyOrdersFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
+    public MyFragmentAdapter(FragmentManager fm, List<Fragment> fragmentList) {
         super(fm);
         this.fragmentList = fragmentList;
     }

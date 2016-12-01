@@ -41,6 +41,8 @@ public class UserInfoActivity extends Activity {
 
         userinfoList = getUserInfo();
 
+        userinfoList.get(3).getUserinfo_value();
+
         UserInfoListAdapter adapter = new UserInfoListAdapter(UserInfoActivity.this,
                 R.layout.userinfo_list_item, userinfoList);
         ListView listView = (ListView)findViewById(R.id.userinfo_list_view);
@@ -109,7 +111,6 @@ public class UserInfoActivity extends Activity {
         userinfoList.add(userTel);
         SimpleUserInfoListItem userSex = new SimpleUserInfoListItem("Sex", "女");
         userinfoList.add(userSex);
-
     }
 
     /**
@@ -126,7 +127,6 @@ public class UserInfoActivity extends Activity {
 
                 Message msg = new Message();
 
-                //登录失败
                 if(userinfoList != null){
 
                     msg.what = 1;
