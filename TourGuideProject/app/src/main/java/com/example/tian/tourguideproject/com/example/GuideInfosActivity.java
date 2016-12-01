@@ -3,22 +3,28 @@ package com.example.tian.tourguideproject.com.example;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.tian.tourguideproject.MainActivity;
 import com.example.tian.tourguideproject.R;
 import com.example.tian.tourguideproject.com.example.Fragments.GuideDetailInfoFragment;
 import com.example.tian.tourguideproject.com.example.Fragments.GuideEvaluationFragment;
 import com.example.tian.tourguideproject.com.example.Fragments.GuideHistoryGroupFragment;
-import com.example.tian.tourguideproject.com.example.Fragments.ReserveGuideFragment;
+import com.example.tian.tourguideproject.com.example.HttpService.GetDetailGuideInfoService;
 import com.example.tian.tourguideproject.com.example.adapter.MyFragmentAdapter;
+import com.example.tian.tourguideproject.com.example.bean.DetailGuideInfo;
 import com.example.tian.tourguideproject.com.example.bean.SimpleGuideInfoListItem;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +54,15 @@ public class GuideInfosActivity extends FragmentActivity implements
 
     private ViewPager myViewPager;
 
-    private String NumID;
-    private SimpleGuideInfoListItem simpleGuideInfo;
+    private ImageView guideImage;
+
+    private String guideNumID;
+
+    private List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+    private Thread getDetailGuidesThread;
+
+    private DetailGuideInfo guideInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,17 +70,77 @@ public class GuideInfosActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.guide_main_page);
 
-//        Intent intent = getIntent();
-//        String name = intent.getStringExtra("name");
-//        simpleGuideInfo = (SimpleGuideInfoListItem)intent.getSerializableExtra("guideInfo");
-//        String name = simpleGuideInfo.getGuideName();
-
-//        Toast.makeText(GuideInfosActivity.this, name, Toast.LENGTH_LONG).show();
-
         setTopBar("导游详细信息");
 
         initView();
+
+        /**从上一个activity获取导游的身份证信息*/
+        guideNumID = getIntent().getStringExtra("guideNumID");
+
+        /**从服务端获取导游的所有信息*/
+        guideInfo = getGuideFromServer(guideNumID);
+
+        String sex = guideInfo.getGuideSex();
+
+        /**根据导游的性别，修改tab栏*/
+        if(sex.equals("男")){
+            tabGuideDetailInfo.setText("他的信息");
+            tabGuideEvaluation.setText("他的评价");
+            tabGuideHistoryGroup.setText("他的团");
+        }
+
+        /**设置导游的头像*/
+        guideImage = (ImageView)findViewById(R.id.guide_image);
+        guideImage.setBackground(guideInfo.getGuideImage());
     }
+
+    /**
+     * 从服务端获取导游的所有信息
+     */
+    public DetailGuideInfo getGuideFromServer(String ID){
+
+        NameValuePair pair = new BasicNameValuePair("guideNumID", ID);
+        params.add(pair);
+
+        getDetailGuidesThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                Message msg = new Message();
+                GetDetailGuideInfoService service = new GetDetailGuideInfoService();
+
+                guideInfo = service.getDetailGuideInfo(params);
+
+                if(guideInfo != null){
+                    msg.what = 1;
+                }
+                handler.sendMessage(msg);
+            }
+        });
+
+        getDetailGuidesThread.start();
+
+        try {
+            getDetailGuidesThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return guideInfo;
+    }
+
+    private Handler handler = new Handler(){
+
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    Log.e("",  "");
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
 
     public void initView(){
 

@@ -3,18 +3,32 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="65dp"
-    android:paddingRight="16dp"
-    android:paddingLeft="16dp">
+    >
 
-    <!--筛选条件-->
     <include
-        layout="@layout/guide_reserve_selector"/>
+        layout="@layout/custom_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp">
+
+        <!--筛选条件-->
+        <include
+            layout="@layout/guide_reserve_selector"/>
+    </LinearLayout>
+
 
     <!--显示已经选择的条件-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
         android:gravity="center">
 
         <LinearLayout
@@ -110,6 +124,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:gravity="end"
         android:layout_marginTop="5dp"
         android:paddingRight="10dp"
@@ -132,9 +148,15 @@
             android:textColor="@color/colorDark"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+        <include
+            layout="@layout/guide_reserve_guide_list"
+            />
+    </LinearLayout>
 
-    <include
-        layout="@layout/guide_reserve_guide_list"
-        />
 
 </LinearLayout>

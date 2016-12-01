@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,8 +20,12 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.SDKInitializer;
+import com.example.tian.tourguideproject.com.example.FindGuideActivity;
 import com.example.tian.tourguideproject.com.example.Fragments.ReleaseOrderFragment;
-import com.example.tian.tourguideproject.com.example.Fragments.ReserveGuideFragment;
+import com.example.tian.tourguideproject.com.example.Fragments.FindGuideFragment;
+import com.example.tian.tourguideproject.com.example.MapFragment;
+import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.MapTrackActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.OrdersActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.SettingActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.UserInfoActivity;
@@ -41,6 +46,9 @@ public class MainActivity extends AppCompatActivity
 
     private  Fragment currentFragment = null;
 
+    //定义手机号为全局变量
+    public static String usertel;
+
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
     private ActionBarDrawerToggle toggle;
@@ -53,6 +61,7 @@ public class MainActivity extends AppCompatActivity
 
         super.onCreate(savedInstanceState);
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+        SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
 
         mainActivity = this;
@@ -70,6 +79,13 @@ public class MainActivity extends AppCompatActivity
          */
         barReleaseOrderTxt = (TextView)findViewById(R.id.app_bar_release_order);
         barReleaseOrderTxt.setOnClickListener(this);
+
+        //添加地图
+        MapFragment mapFragment = new MapFragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.content_fragment,mapFragment);
+        fragmentTransaction.commit();
     }
 
     /**
@@ -163,10 +179,13 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_orders) {
+
             Intent intent = new Intent(MainActivity.this, OrdersActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_tour) {
 
+//            Intent intent = new Intent(MainActivity.this, MapTrackActivity.class);
+//            startActivity(intent);
 
         } else if (id == R.id.nav_service) {
 
@@ -189,12 +208,14 @@ public class MainActivity extends AppCompatActivity
                 barReserveTxt.setTextColor(Color.RED);
                 barReleaseOrderTxt.setTextColor(Color.BLACK);
 
-                currentFragment = new ReserveGuideFragment();
-                if (currentFragment != null) {
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.content_fragment, currentFragment);
-                    transaction.commit();
-                }
+                Intent intent = new Intent(MainActivity.this, FindGuideActivity.class);
+                startActivity(intent);
+//                currentFragment = new FindGuideFragment();
+//                if (currentFragment != null) {
+//                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+//                    transaction.replace(R.id.content_fragment, currentFragment);
+//                    transaction.commit();
+//                }
                 break;
             case R.id.app_bar_release_order:
                 /**顶部bar中的发布订单*/

@@ -36,12 +36,10 @@ public class UserInfoActivity extends Activity {
 
         setTopBar("个人信息");
 
-//        //初始化用户信息
-//        initUserInfo();
+        //初始化用户信息
+//        userinfoList = initUserInfo();
 
         userinfoList = getUserInfo();
-
-        userinfoList.get(3).getUserinfo_value();
 
         UserInfoListAdapter adapter = new UserInfoListAdapter(UserInfoActivity.this,
                 R.layout.userinfo_list_item, userinfoList);
@@ -96,7 +94,7 @@ public class UserInfoActivity extends Activity {
         });
     }
 
-    public void initUserInfo(){
+    public List<SimpleUserInfoListItem> initUserInfo(){
 
         int[] itemIconRes = {R.drawable.user_image};
 
@@ -111,6 +109,8 @@ public class UserInfoActivity extends Activity {
         userinfoList.add(userTel);
         SimpleUserInfoListItem userSex = new SimpleUserInfoListItem("Sex", "女");
         userinfoList.add(userSex);
+
+        return userinfoList;
     }
 
     /**

@@ -93,7 +93,7 @@
             android:text="年龄:"
             android:textColor="@color/colorDark"/>
 
-        <com.example.tian.tourguideproject.com.example.MyRadioGroup
+        <com.example.tian.tourguideproject.com.example.utils.MyRadioGroup
             android:id="@+id/age_radio_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -130,7 +130,7 @@
                     android:layout_marginLeft="10dp"
                     android:text="40-50"/>
             </LinearLayout>
-        </com.example.tian.tourguideproject.com.example.MyRadioGroup>
+        </com.example.tian.tourguideproject.com.example.utils.MyRadioGroup>
 
         <!--<RadioGroup-->
             <!--android:id="@+id/age_radio_group"-->

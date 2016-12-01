@@ -1,4 +1,4 @@
-package com.example.tian.tourguideproject.com.example;
+package com.example.tian.tourguideproject.com.example.utils;
 
 import android.content.Context;
 import android.util.AttributeSet;

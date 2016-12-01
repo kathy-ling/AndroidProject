@@ -1,30 +1,26 @@
-package com.example.tian.tourguideproject.com.example.Fragments;
+package com.example.tian.tourguideproject.com.example;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.tian.tourguideproject.MainActivity;
 import com.example.tian.tourguideproject.R;
-import com.example.tian.tourguideproject.com.example.GuideInfosActivity;
 import com.example.tian.tourguideproject.com.example.HttpService.GetGuidesInfoService;
-import com.example.tian.tourguideproject.com.example.MyRadioGroup;
 import com.example.tian.tourguideproject.com.example.adapter.GuideInfoListAdapter;
 import com.example.tian.tourguideproject.com.example.bean.SimpleGuideInfoListItem;
+import com.example.tian.tourguideproject.com.example.utils.MyRadioGroup;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -33,10 +29,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by tian on 2016/11/25.
+ * Created by tian on 2016/12/1.
  */
 
-public class ReserveGuideFragment extends Fragment implements
+public class FindGuideActivity extends Activity implements
         View.OnClickListener, RadioGroup.OnCheckedChangeListener,
         AdapterView.OnItemClickListener{
 
@@ -92,12 +88,16 @@ public class ReserveGuideFragment extends Fragment implements
     private Thread getSelectedGuidesThread;
 
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.guide_reserve_main, null);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.guide_reserve_main);
 
-        totalGuidesTxt = (TextView)view.findViewById(R.id.guides_meet_condition);
+        setTopBar("查看导游");
+
+        totalGuidesTxt = (TextView)findViewById(R.id.guides_meet_condition);
 
 //        initGuideInfo();
 
@@ -107,77 +107,38 @@ public class ReserveGuideFragment extends Fragment implements
         /**符合条件的导游数量*/
         totalGuidesTxt.setText(guideInfoList.size()+"");
 
-        GuideInfoListAdapter adapter = new GuideInfoListAdapter(getActivity().getApplication(),
+        GuideInfoListAdapter adapter = new GuideInfoListAdapter(FindGuideActivity.this,
                 R.layout.guide_reserve_guide_list, guideInfoList);
-        listView = (ListView)view.findViewById(R.id.reserve_guide_listview);
+        listView = (ListView)findViewById(R.id.reserve_guide_listview);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
 
-        initRadioGroup(view);
+        initRadioGroup();
 
-        initClearSelector(view);
-
-        return view;
+        initClearSelector();
     }
 
-//    public void initGuideInfo(){
-//
-//        int[] itemIconRes = {R.drawable.linkeer};
-//
-//        SimpleGuideInfoListItem guide1 = new SimpleGuideInfoListItem(null,
-//                "林可儿", "3年", "my selef introduction 我94年取得导游证，一直从事北京地接服务，到现在从业22年，讲解生动，经验丰富，热情大方", "￥350/天");
-//        SimpleGuideInfoListItem guide2 = new SimpleGuideInfoListItem(null,
-//                "林可儿", "3年", "my selef introduction 我94年取得导游证，一直从事北京地接服务，到现在从业22年，讲解生动，经验丰富，热情大方", "￥350/天");
-//        SimpleGuideInfoListItem guide3 = new SimpleGuideInfoListItem(null,
-//                "林可儿", "3年", "my selef introduction 我94年取得导游证，一直从事北京地接服务，到现在从业22年，讲解生动，经验丰富，热情大方", "￥350/天");
-//        SimpleGuideInfoListItem guide4 = new SimpleGuideInfoListItem(null,
-//                "林可儿", "3年", "my selef introduction 我94年取得导游证，一直从事北京地接服务，到现在从业22年，讲解生动，经验丰富，热情大方", "￥350/天");
-//        SimpleGuideInfoListItem guide5 = new SimpleGuideInfoListItem(null,
-//                "林可儿", "3年", "my selef introduction 我94年取得导游证，一直从事北京地接服务，到现在从业22年，讲解生动，经验丰富，热情大方", "￥350/天");
-//        SimpleGuideInfoListItem guide6 = new SimpleGuideInfoListItem(null,
-//                "林可儿", "3年", "my selef introduction 我94年取得导游证，一直从事北京地接服务，到现在从业22年，讲解生动，经验丰富，热情大方", "￥350/天");
-//
-//        guideInfoList.add(guide1);
-//        guideInfoList.add(guide2);
-//        guideInfoList.add(guide3);
-//        guideInfoList.add(guide4);
-//        guideInfoList.add(guide5);
-//        guideInfoList.add(guide6);
-//    }
 
     /**
-     * 选择筛选条件
-     * @param view
+     * 设置TopBar的标题和返回按钮
      */
-    public void initRadioGroup(View view){
+    public void setTopBar(String title){
 
-        RadioGroup languageRadioGroup = (RadioGroup)view.findViewById(R.id.language_radio_group);
-        allLanguageRadio = (RadioButton)view.findViewById(R.id.language_all_radio);
-        chineseRadio = (RadioButton)view.findViewById(R.id.language_chinese_radio);
-        englishRadio = (RadioButton)view.findViewById(R.id.language_english_radio);
+        ImageView back_img = (ImageView)findViewById(R.id.topbar_backkey);
+        TextView topbar_title = (TextView)findViewById(R.id.topbar_title);
 
-        RadioGroup sexRadioGroup = (RadioGroup)view.findViewById(R.id.sex_radio_group);
-        allSexRadio = (RadioButton)view.findViewById(R.id.sex_all_radio);
-        maleRadio = (RadioButton)view.findViewById(R.id.sex_male_radio);
-        femaleRadio = (RadioButton)view.findViewById(R.id.sex_female_radio);
+        topbar_title.setText(title);
+        back_img.setOnClickListener(new View.OnClickListener(){
 
-        MyRadioGroup ageRadioGroup = (MyRadioGroup)view.findViewById(R.id.age_radio_group);
-        allAgeRadio = (RadioButton)view.findViewById(R.id.age_all_radio);
-        twentyRadio = (RadioButton)view.findViewById(R.id.age_20_30_radio);
-        thirtyRadio = (RadioButton)view.findViewById(R.id.age_30_40_radio);
-        fortyRadio = (RadioButton)view.findViewById(R.id.age_40_50_radio);
-
-        languageRadioGroup.setOnCheckedChangeListener(this);
-        sexRadioGroup.setOnCheckedChangeListener(this);
-        ageRadioGroup.setOnCheckedChangeListener(myRadioGroupListener);
-
-        TextView guideSearch = (TextView)view.findViewById(R.id.search_guide_btn);
-        guideSearch.setOnClickListener(this);
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
-
     /**
-     * 与服务端交互,获取导游信息
+     * 与服务端交互,获取所有导游信息
      */
     public List<SimpleGuideInfoListItem> getAllGuidesInfo(){
 
@@ -208,6 +169,9 @@ public class ReserveGuideFragment extends Fragment implements
         return guideInfoList;
     }
 
+    /**
+     * 与服务端交互,获取满足条件的导游信息
+     */
     public List<SimpleGuideInfoListItem> getSelectedGuidesInfo(final List<NameValuePair> params){
 
         getSelectedGuidesThread = new Thread(new Runnable() {
@@ -246,7 +210,7 @@ public class ReserveGuideFragment extends Fragment implements
                     break;
                 case 2:
                     Log.e("selected", guideInfoList.size()+"");
-                    Toast.makeText(getContext(), "selected:" + guideInfoList.size()+"",
+                    Toast.makeText(FindGuideActivity.this, "selected:" + guideInfoList.size()+"",
                             Toast.LENGTH_SHORT).show();
                 case 3:
                     break;
@@ -256,24 +220,51 @@ public class ReserveGuideFragment extends Fragment implements
         }
     };
 
+    /**
+     * 选择筛选条件
+     */
+    public void initRadioGroup(){
+
+        RadioGroup languageRadioGroup = (RadioGroup)findViewById(R.id.language_radio_group);
+        allLanguageRadio = (RadioButton)findViewById(R.id.language_all_radio);
+        chineseRadio = (RadioButton)findViewById(R.id.language_chinese_radio);
+        englishRadio = (RadioButton)findViewById(R.id.language_english_radio);
+
+        RadioGroup sexRadioGroup = (RadioGroup)findViewById(R.id.sex_radio_group);
+        allSexRadio = (RadioButton)findViewById(R.id.sex_all_radio);
+        maleRadio = (RadioButton)findViewById(R.id.sex_male_radio);
+        femaleRadio = (RadioButton)findViewById(R.id.sex_female_radio);
+
+        MyRadioGroup ageRadioGroup = (MyRadioGroup)findViewById(R.id.age_radio_group);
+        allAgeRadio = (RadioButton)findViewById(R.id.age_all_radio);
+        twentyRadio = (RadioButton)findViewById(R.id.age_20_30_radio);
+        thirtyRadio = (RadioButton)findViewById(R.id.age_30_40_radio);
+        fortyRadio = (RadioButton)findViewById(R.id.age_40_50_radio);
+
+        languageRadioGroup.setOnCheckedChangeListener(this);
+        sexRadioGroup.setOnCheckedChangeListener(this);
+        ageRadioGroup.setOnCheckedChangeListener(myRadioGroupListener);
+
+        TextView guideSearch = (TextView)findViewById(R.id.search_guide_btn);
+        guideSearch.setOnClickListener(this);
+    }
 
     /**
      * 显示已经选择的条件
      * 删除已经选择的条件
-     * @param view
      */
-    public void initClearSelector(View view){
+    public void initClearSelector(){
 
-        haveChosenLayout = (LinearLayout)view.findViewById(R.id.have_chosen_layout);
+        haveChosenLayout = (LinearLayout)findViewById(R.id.have_chosen_layout);
 
-        languageChosenLayout = (LinearLayout)view.findViewById(R.id.chosen_language_layout);
-        ageChosenLayout = (LinearLayout)view.findViewById(R.id.chosen_age_layout);
-        sexChosenLayout = (LinearLayout)view.findViewById(R.id.chosen_sex_layout);
+        languageChosenLayout = (LinearLayout)findViewById(R.id.chosen_language_layout);
+        ageChosenLayout = (LinearLayout)findViewById(R.id.chosen_age_layout);
+        sexChosenLayout = (LinearLayout)findViewById(R.id.chosen_sex_layout);
 
-        chosenConditionTxt = (TextView)view.findViewById(R.id.have_chosen_txt);
-        chosenLanguageTxt = (TextView)view.findViewById(R.id.chosen_language_txt);
-        chosenSexTxt = (TextView)view.findViewById(R.id.chosen_sex_txt);
-        chosenAgeTxt = (TextView)view.findViewById(R.id.chosen_age_txt);
+        chosenConditionTxt = (TextView)findViewById(R.id.have_chosen_txt);
+        chosenLanguageTxt = (TextView)findViewById(R.id.chosen_language_txt);
+        chosenSexTxt = (TextView)findViewById(R.id.chosen_sex_txt);
+        chosenAgeTxt = (TextView)findViewById(R.id.chosen_age_txt);
 
         //初始时，已选条件 布局隐藏
         haveChosenLayout.setVisibility(View.GONE);
@@ -329,12 +320,9 @@ public class ReserveGuideFragment extends Fragment implements
 
         totalGuidesTxt.setText(guideInfoList.size()+"");
 
-        GuideInfoListAdapter adapter = new GuideInfoListAdapter(getActivity().getApplication(),
+        GuideInfoListAdapter adapter = new GuideInfoListAdapter(FindGuideActivity.this,
                 R.layout.guide_reserve_guide_list, guideInfoList);
         listView.setAdapter(adapter);
-
-        Toast.makeText(getContext(), languageSelected + sexSelected + ageSelected,
-                Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -496,23 +484,23 @@ public class ReserveGuideFragment extends Fragment implements
                 }
             };
 
+    /**
+     * 处理每个list item的点击事件
+     * 跳转到导游的详细信息界面
+     */
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
         SimpleGuideInfoListItem guideInfo = guideInfoList.get(position);
 
-        Toast.makeText(MainActivity.mainActivity,
-                guideInfo.getGuideNumID() + guideInfo.getGuideName() ,
-                Toast.LENGTH_LONG).show();
+//        Toast.makeText(MainActivity.mainActivity,
+//                guideInfo.getGuideNumID() + guideInfo.getGuideName() ,
+//                Toast.LENGTH_LONG).show();
 
-//        myListener.sendContent(guideInfo);
+        //向下一个页面传入导游的身份证信息
+        Intent intent = new Intent(FindGuideActivity.this, GuideInfosActivity.class);
+        intent.putExtra("guideNumID", guideInfo.getGuideNumID());
+        startActivity(intent);
 
-//        Intent intent = new Intent(getActivity().getApplicationContext(), GuideInfosActivity.class);
-//        intent.putExtra("name", guideInfo.getGuideName());
-////        Bundle bundle = new Bundle();
-////        bundle.putSerializable("guideInfo", guideInfo);
-////        intent.putExtras(bundle);
-//        startActivity(intent);
     }
-
 }

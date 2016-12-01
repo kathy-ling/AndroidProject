@@ -1,6 +1,8 @@
 package com.example.tian.tourguideproject.com.example.bean;
 
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import java.io.Serializable;
 
@@ -77,4 +79,5 @@ public class SimpleGuideInfoListItem implements Serializable {
     public void setGuideNumID(String guideNumID) {
         this.guideNumID = guideNumID;
     }
+
 }

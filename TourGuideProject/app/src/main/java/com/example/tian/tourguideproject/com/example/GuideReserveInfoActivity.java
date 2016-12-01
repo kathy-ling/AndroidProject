@@ -10,6 +10,7 @@ import com.example.tian.tourguideproject.R;
 
 /**
  * Created by tian on 2016/11/29.
+ * 选定导游后，进行下单预约
  */
 
 public class GuideReserveInfoActivity extends Activity {
