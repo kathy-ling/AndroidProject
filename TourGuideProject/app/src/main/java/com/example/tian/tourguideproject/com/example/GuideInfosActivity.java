@@ -1,12 +1,16 @@
 package com.example.tian.tourguideproject.com.example;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +25,7 @@ import com.example.tian.tourguideproject.com.example.Fragments.GuideHistoryGroup
 import com.example.tian.tourguideproject.com.example.HttpService.GetDetailGuideInfoService;
 import com.example.tian.tourguideproject.com.example.adapter.MyFragmentAdapter;
 import com.example.tian.tourguideproject.com.example.bean.DetailGuideInfo;
-import com.example.tian.tourguideproject.com.example.bean.SimpleGuideInfoListItem;
+import com.google.gson.Gson;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -56,13 +60,14 @@ public class GuideInfosActivity extends FragmentActivity implements
 
     private ImageView guideImage;
 
-    private String guideNumID;
-
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
 
     private Thread getDetailGuidesThread;
 
     private DetailGuideInfo guideInfo;
+
+    private static String guideNumID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,13 +77,24 @@ public class GuideInfosActivity extends FragmentActivity implements
 
         setTopBar("导游详细信息");
 
-        initView();
-
         /**从上一个activity获取导游的身份证信息*/
         guideNumID = getIntent().getStringExtra("guideNumID");
 
         /**从服务端获取导游的所有信息*/
         guideInfo = getGuideFromServer(guideNumID);
+
+        initView();
+
+        changeImageAndTab(guideInfo);
+
+    }
+
+
+    /**
+     * 根据导游的信息，修改头像和tab栏的文字
+     * @param guideInfo
+     */
+    public void changeImageAndTab(DetailGuideInfo guideInfo){
 
         String sex = guideInfo.getGuideSex();
 
@@ -87,6 +103,10 @@ public class GuideInfosActivity extends FragmentActivity implements
             tabGuideDetailInfo.setText("他的信息");
             tabGuideEvaluation.setText("他的评价");
             tabGuideHistoryGroup.setText("他的团");
+        }else if(sex.equals("女")){
+            tabGuideDetailInfo.setText("她的信息");
+            tabGuideEvaluation.setText("她的评价");
+            tabGuideHistoryGroup.setText("她的团");
         }
 
         /**设置导游的头像*/
@@ -151,6 +171,11 @@ public class GuideInfosActivity extends FragmentActivity implements
         tabGuideHistoryGroup = (TextView)findViewById(R.id.guide_history_group_txt);
 
         GuideDetailInfoFragment guideDetailInfoFragment = new GuideDetailInfoFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putString("key", guideInfo.getGuideNumID());
+        guideDetailInfoFragment.setArguments(bundle);
+
         GuideEvaluationFragment guideEvaluationFragment = new GuideEvaluationFragment();
         GuideHistoryGroupFragment guideHistoryGroupFragment = new GuideHistoryGroupFragment();
 

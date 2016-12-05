@@ -27,7 +27,7 @@ import java.util.List;
 
 public class GetDetailGuideInfoService {
 
-    public static final String BASE_URL = "http://10.50.63.62:8080/SpringMe/getGuideNumID";
+    public static final String BASE_URL = "http://10.50.63.62:8080/SpringMe/getGuideNumID.do";
 
     private DetailGuideInfo guideInfo;
     private String result;
@@ -80,6 +80,7 @@ public class GetDetailGuideInfoService {
             String guideLevel = jsonObject.getString("guideLevel");
             String guideSex = jsonObject.getString("guideSex");
             String guideAge = jsonObject.getString("guideAge");
+            String guideLanguage = jsonObject.getString("guideLanguage");
             String guideCertificateID = jsonObject.getString("guideCertificateID");
 
             try {
@@ -95,7 +96,7 @@ public class GetDetailGuideInfoService {
 
             guideInfo = new DetailGuideInfo(guideAge, guideSex, guideLevel,
                     guideCertificateID, guideImage, guideName, guideWorkAge, guideIntro,
-                    guidePrice, guideNumID);
+                    guidePrice, guideNumID, guideLanguage);
 
 
         } catch (JSONException e) {

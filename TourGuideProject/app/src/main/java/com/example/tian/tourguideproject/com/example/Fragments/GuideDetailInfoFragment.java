@@ -1,18 +1,27 @@
 package com.example.tian.tourguideproject.com.example.Fragments;
 
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tian.tourguideproject.R;
+import com.example.tian.tourguideproject.com.example.GuideInfosActivity;
 import com.example.tian.tourguideproject.com.example.GuideReserveInfoActivity;
+import com.example.tian.tourguideproject.com.example.bean.DetailGuideInfo;
+import com.example.tian.tourguideproject.com.example.utils.LocalReceiver;
 
 /**
  * Created by tian on 2016/11/28.
@@ -30,17 +39,50 @@ public class GuideDetailInfoFragment extends Fragment implements View.OnClickLis
     private TextView languageTxt;
     private TextView priceTxt;
 
+    private String guideNumID;
+
+    private DetailGuideInfo guideInfo;
+
+    private LocalReceiver localReceiver;
+    private IntentFilter intentFilter;
+    private LocalBroadcastManager localBroadcastManager;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle bundle = getArguments();
+        guideNumID = bundle.getString("key");
+        Log.e("fragment", bundle.getString("key"));
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.guide_detail_info_fragment, null);
         initView(view);
-//
-//        Bundle bundle = getArguments();
-//        nameTxt.setText(bundle.getString("guideNumID"));
-//
-//        Log.e("fragment", bundle.getString("guideNumID"));
+
+        GuideInfosActivity guideInfosActivity = new GuideInfosActivity();
+        guideInfo = guideInfosActivity.getGuideFromServer(guideNumID);
+
+        setGuide(guideInfo);
+
+
         return view;
+    }
+
+    public void setGuide(DetailGuideInfo guideInfo){
+
+        nameTxt.setText(guideInfo.getGuideName());
+        ageTxt.setText(guideInfo.getGuideAge());
+        sexTxt.setText(guideInfo.getGuideSex());
+        levelTxt.setText(guideInfo.getGuideLevel());
+        certificateIDTxt.setText(guideInfo.getGuideCertificateID());
+        workAgeTxt.setText(guideInfo.getGuideWorkAge());
+        introTxt.setText(guideInfo.getGuideIntro());
+        languageTxt.setText(guideInfo.getGuideLanguage());
+        priceTxt.setText("￥"+guideInfo.getGuidePrice()+"/天");
     }
 
     public void initView(View view){
@@ -59,20 +101,6 @@ public class GuideDetailInfoFragment extends Fragment implements View.OnClickLis
         reserve.setOnClickListener(this);
     }
 
-//    public void getInfoFromActivity(){
-//
-//        Bundle bundle = getArguments();
-//        nameTxt.setText(bundle.getString("guideName"));
-//        workAgeTxt.setText(bundle.getString("guideWorkAge"));
-//        introTxt.setText(bundle.getString("guideIntro"));
-//        priceTxt.setText(bundle.getString("guidePrice"));
-////        ageTxt.setText();
-////        sexTxt.setText();
-////        levelTxt.setText();
-////        certificateIDTxt.setText();
-////        languageTxt.setText();
-//
-//    }
 
     @Override
     public void onClick(View v) {

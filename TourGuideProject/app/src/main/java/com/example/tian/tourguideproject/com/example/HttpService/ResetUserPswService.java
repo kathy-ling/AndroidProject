@@ -9,7 +9,7 @@ import java.net.URL;
 
 public class ResetUserPswService {
 
-    private static String BASE_URL = "http://10.50.63.62:8080/SpringMe/updatephonenumber";
+    private static String BASE_URL = "http://10.50.63.62:8080/SpringMe/updatephonenumber.do";
 
     public  Boolean executeHttpGet(String phone, String password){
 

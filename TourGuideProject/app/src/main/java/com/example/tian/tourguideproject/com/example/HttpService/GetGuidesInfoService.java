@@ -31,9 +31,9 @@ import java.util.List;
 
 public class GetGuidesInfoService {
 
-    public static final String BASE_URL = "http://10.50.63.62:8080/SpringMe/getguideinfo";
+    public static final String BASE_URL = "http://10.50.63.62:8080/SpringMe/getguideinfo.do";
 
-    public static final String BASE_URL_2 = "http://10.50.63.62:8080/SpringMe/getSelectedGuideInfo";
+    public static final String BASE_URL_2 = "http://10.50.63.62:8080/SpringMe/getSelectedGuideInfo.do";
 
     String result;
 
