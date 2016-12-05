@@ -1,4 +1,4 @@
-package com.example.tian.tourguideproject.com.example.bean;
+package com.example.tian.tourguideproject.com.example.HttpService;
 
 import android.util.Log;
 

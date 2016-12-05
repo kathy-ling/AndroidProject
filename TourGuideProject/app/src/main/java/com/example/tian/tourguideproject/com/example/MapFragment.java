@@ -68,7 +68,7 @@ public class MapFragment extends Fragment {
         mLocClient.start();
 
         //设置缩放级别
-        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(15).build()));
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(17).build()));
 
         //添加覆盖物
         addInfosOverLay(OverLayInfo.infos);

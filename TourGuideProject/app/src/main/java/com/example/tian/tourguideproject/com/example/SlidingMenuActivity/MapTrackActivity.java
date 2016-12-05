@@ -3,7 +3,6 @@ package com.example.tian.tourguideproject.com.example.SlidingMenuActivity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Message;
-import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
@@ -13,6 +12,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.os.Handler;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
@@ -31,8 +32,7 @@ import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.example.tian.tourguideproject.R;
 import com.example.tian.tourguideproject.com.example.HttpService.getLocationService;
-import com.example.tian.tourguideproject.com.example.bean.RecordMyLocationService;
-import com.example.tian.tourguideproject.com.example.HttpService.getLocationService;
+import com.example.tian.tourguideproject.com.example.HttpService.RecordMyLocationService;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -42,7 +42,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.ExecutionException;
 
 import static com.baidu.mapapi.BMapManager.getContext;
 import static com.example.tian.tourguideproject.MainActivity.usertel;
@@ -72,33 +71,14 @@ public class MapTrackActivity extends AppCompatActivity implements View.OnClickL
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_map_track);
 
+        setTopBar("轨迹查询");
+
         //初始化控件
         initView();
 
-        mBaiduMap = mapView.getMap();
-        //选择地图类型，此为普通地图
-        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-        //开启定位
-        mBaiduMap.setMyLocationEnabled(true);
-        // 定位初始化
-        mCurrentMode = MyLocationConfiguration.LocationMode.FOLLOWING;
-        MyLocationConfiguration config = new MyLocationConfiguration(mCurrentMode,true,null);
-        mBaiduMap.setMyLocationConfigeration(config);
-        MyLocationListenner myListener = new MyLocationListenner();
-
-        LocationClient mLocClient = new LocationClient(this);
-        mLocClient.registerLocationListener(myListener);
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true); // 打开gps
-        option.setCoorType("bd09ll"); // 设置坐标类型
-        option.setScanSpan(1000);
-        mLocClient.setLocOption(option);
-        mLocClient.start();
-
+        showMap();
         //设置缩放级别
-        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(16).build()));
-
-
+        mBaiduMap.setMapStatus(MapStatusUpdateFactory.newMapStatus(new MapStatus.Builder().zoom(18).build()));
 
         //将定位数据每隔一段时间，存入数据库
         Timer timer = new Timer();
@@ -126,9 +106,9 @@ public class MapTrackActivity extends AppCompatActivity implements View.OnClickL
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    Dialog dialog = onCreateDatePickDialog(etDate);
-                    dialog.show();
-                }
+                Dialog dialog = onCreateDatePickDialog(etDate);
+                dialog.show();
+            }
         });
     }
 
@@ -282,6 +262,28 @@ public class MapTrackActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    public void showMap()
+    {
+        mBaiduMap = mapView.getMap();
+        //选择地图类型，此为普通地图
+        mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
+        //开启定位
+        mBaiduMap.setMyLocationEnabled(true);
+        // 定位初始化
+        mCurrentMode = MyLocationConfiguration.LocationMode.FOLLOWING;
+        MyLocationConfiguration config = new MyLocationConfiguration(mCurrentMode,true,null);
+        mBaiduMap.setMyLocationConfigeration(config);
+        MyLocationListenner myListener = new MyLocationListenner();
+
+        LocationClient mLocClient = new LocationClient(this);
+        mLocClient.registerLocationListener(myListener);
+        LocationClientOption option = new LocationClientOption();
+        option.setOpenGps(true); // 打开gps
+        option.setCoorType("bd09ll"); // 设置坐标类型
+        option.setScanSpan(1000);
+        mLocClient.setLocOption(option);
+        mLocClient.start();
+    }
     //定位SDK监听函数
     public class MyLocationListenner implements BDLocationListener {
         @Override
@@ -304,8 +306,23 @@ public class MapTrackActivity extends AppCompatActivity implements View.OnClickL
         public void onReceivePoi(BDLocation poiLocation) {
         }
     }
+    /**
+     * 设置TopBar的标题和返回按钮
+     */
+    public void setTopBar(String title)
+    {
+        ImageView back_img = (ImageView) findViewById (R.id.topbar_backkey);
+        TextView topbar_title = (TextView) findViewById (R.id.topbar_title);
 
+        topbar_title.setText(title);
+        back_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
+    }
 
     protected void onDestroy(Bundle savedInstanceState)
     {

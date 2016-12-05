@@ -31,81 +31,44 @@ public class getLocationService {
         HttpClient httpClient = new DefaultHttpClient();
         HttpPost httpPost = new HttpPost(URL);
 
-        try{
+        try
+        {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(pairList, "UTF-8");
             httpPost.setEntity(entity);
 
             HttpResponse response = httpClient.execute(httpPost);
             int ret = response.getStatusLine().getStatusCode();
 
-            if(ret == 200){
-
+            if(ret == 200)
+            {
                 HttpEntity httpEntity = response.getEntity();
                 String result = EntityUtils.toString(httpEntity);
-
-                try {
-                    JSONObject jsonObject = new JSONObject(result);
-                    JSONArray array = jsonObject.getJSONArray("location");
-
-                    for(int i = 0; i < array.length(); i++){
-                        JSONObject jsonObjectSon= (JSONObject)array.opt(i);
-                        String tmp1 = jsonObjectSon.getString("latitude");
-                        String tmp2 = jsonObjectSon.getString("longitude");
-
-//						Log.e("latitude", tmp1);
-//						Log.e("longitude", tmp2.toString());
-
-                        locations.add(new Location(tmp1, tmp2));
-                    }
-                } catch (JSONException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                /**解析服务器端的经纬度值*/
+                jsonMyLocation(result);
             }
-        }catch (IOException e) {
+        }catch (IOException e)
+        {
             e.printStackTrace();
         }
-        /*Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                HttpClient httpClient = new DefaultHttpClient();
-                HttpPost httpPost = new HttpPost(URL);
-                try
-                {
-                    UrlEncodedFormEntity entity = new UrlEncodedFormEntity(pairList, "UTF-8");
-                    httpPost.setEntity(entity);
-
-                    HttpResponse response = httpClient.execute(httpPost);
-                    int ret = response.getStatusLine().getStatusCode();
-                    if(ret == 200)
-                    {
-                        HttpEntity httpEntity = response.getEntity();
-                        String result = EntityUtils.toString(httpEntity);
-                        try {
-                            JSONObject jsonObject = new JSONObject(result);
-                            JSONArray array = jsonObject.getJSONArray("locations");
-
-                            for(int i = 0; i < array.length(); i++){
-                                JSONObject jsonObjectSon= (JSONObject)array.opt(i);
-                                String tmp1 = jsonObjectSon.getString("latitude");
-                                String tmp2 = jsonObjectSon.getString("longitude");
-
-                                locations.add(new Location(tmp1, tmp2));
-                            }
-                        } catch (JSONException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        thread.start();*/
         return locations;
+    }
+    /*解析服务器端获取到的经纬度值*/
+    public void jsonMyLocation(String result)
+    {
+        try
+        {
+            JSONArray jsonArray = new JSONArray(result);
+            for(int i = 0; i < jsonArray.length();i++)
+            {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String latitude = jsonObject.getString("latitude");
+                String longitude = jsonObject.getString("longitude");
+                locations.add(new Location(latitude,longitude));
+            }
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
     }
 }
