@@ -20,11 +20,17 @@ import com.example.tian.tourguideproject.com.example.bean.SimpleUserInfoListItem
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.tian.tourguideproject.MainActivity.usertel;
+
+//import static com.example.tian.tourguideproject.MainActivity.usertel;
+
 /**
  * Created by tian on 2016/11/22.
  */
 
 public class UserInfoActivity extends Activity {
+
+
 
     private List<SimpleUserInfoListItem> userinfoList = new ArrayList<>();
 
@@ -40,6 +46,7 @@ public class UserInfoActivity extends Activity {
 //        userinfoList = initUserInfo();
 
         userinfoList = getUserInfo();
+        usertel = userinfoList.get(3).getUserinfo_value();
 
         UserInfoListAdapter adapter = new UserInfoListAdapter(UserInfoActivity.this,
                 R.layout.userinfo_list_item, userinfoList);

@@ -1,12 +1,16 @@
 package com.example.tian.tourguideproject.com.example.SlidingMenuActivity;
 
-import android.location.Location;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.os.Message;
+import android.renderscript.ScriptGroup;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.os.Handler;
 import android.widget.Toast;
@@ -22,36 +26,44 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.PolylineOptions;
+import com.baidu.mapapi.model.LatLng;
 import com.example.tian.tourguideproject.R;
+import com.example.tian.tourguideproject.com.example.HttpService.getLocationService;
 import com.example.tian.tourguideproject.com.example.bean.RecordMyLocationService;
-//import com.example.tian.tourguideproject.com.example.HttpService.GetLocationService;
+import com.example.tian.tourguideproject.com.example.HttpService.getLocationService;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import static com.example.tian.tourguideproject.MainActivity.usertel;
+import java.util.concurrent.ExecutionException;
 
-public class MapTrackActivity extends AppCompatActivity {
+import static com.baidu.mapapi.BMapManager.getContext;
+import static com.example.tian.tourguideproject.MainActivity.usertel;
+import com.example.tian.tourguideproject.com.example.bean.Location;
+
+public class MapTrackActivity extends AppCompatActivity implements View.OnClickListener{
     //地图控件初始化
     MapView mapView = null;
     BaiduMap mBaiduMap =null;
 
-    //初始化相关控件
-    EditText etDate = (EditText) findViewById(R.id.etDate);
-    Button btnSearching = (Button) findViewById(R.id.btnTrackSearching);
     //定义定位模式
     private MyLocationConfiguration.LocationMode mCurrentMode;
 
+    private static List<Location> locationArrayList = new ArrayList<Location>();
 
-    private static List<Location> location = new ArrayList<Location>();
-
+    Button btnSearching;
+    EditText etDate;
     private double latitude;
     private double longitude;
     private String dateString;
+    private Calendar m_date = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +72,9 @@ public class MapTrackActivity extends AppCompatActivity {
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_map_track);
 
-        //获取地图控件引用
-        mapView = (MapView)findViewById(R.id.bmapView);
+        //初始化控件
+        initView();
+
         mBaiduMap = mapView.getMap();
         //选择地图类型，此为普通地图
         mBaiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
@@ -97,21 +110,74 @@ public class MapTrackActivity extends AppCompatActivity {
             }
         }, 5000, 60*1000);
         //获取指定日期的位置信息
-        //getLocations();
+        getLocations();
 
     }
 
+    //初始化控件
+    private void initView() {
+        //获取地图控件引用
+        mapView = (MapView)findViewById(R.id.bmapView);
+        btnSearching = (Button) findViewById(R.id.btnTrackSearching);
+        etDate = (EditText) findViewById(R.id.etDate);
+        //禁止弹出软键盘
+        etDate.setInputType(InputType.TYPE_NULL);
+        //添加点击事件
+        etDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    Dialog dialog = onCreateDatePickDialog(etDate);
+                    dialog.show();
+                }
+        });
+    }
+
+    //创建显示日期对话框
+    protected Dialog onCreateDatePickDialog(final EditText editText) {
+        Dialog dialog = null;
+        m_date = Calendar.getInstance();
+        try
+        {
+            dialog = new DatePickerDialog(MapTrackActivity.this, new DatePickerDialog.OnDateSetListener() {
+                public void onDateSet(DatePicker dp, int year, int month, int dayOfMonth) {
+                    editText.setText(dateFormat(year, (month + 1), dayOfMonth));
+                }
+            }, m_date.get(Calendar.YEAR), // 传入年份
+                    m_date.get(Calendar.MONTH), // 传入月份
+                    m_date.get(Calendar.DAY_OF_MONTH) // 传入天数
+            );
+
+        }
+        catch (Exception e)
+        {}
+        return dialog;
+    }
+    //格式化日期
+    private String dateFormat(int year, int month, int day) {
+
+        String m = String.valueOf(month);
+        String d = String.valueOf(day);
+
+        if(month < 10) {
+            m = "0" + m;
+        }
+        if(day < 10) {
+            d = "0" + d;
+        }
+
+        return year + "-" + m + "-" + d;
+    }
     //将位置信息存入数据库
     public void RecordMyLocation()
     {
         List<NameValuePair> pairList = new ArrayList<NameValuePair>();
-        NameValuePair pair = new BasicNameValuePair("usertel", usertel);
-        NameValuePair pair1 = new BasicNameValuePair("latitude", String.valueOf(latitude));
-        NameValuePair pair2 = new BasicNameValuePair("longitude", String.valueOf(longitude));
+        NameValuePair pair_latitude = new BasicNameValuePair("latitude", String.valueOf(latitude));
+        NameValuePair pair_longtitude = new BasicNameValuePair("longitude", String.valueOf(longitude));
+        NameValuePair pair_usertel = new BasicNameValuePair("usertel", usertel);
 
-        pairList.add(pair);
-        pairList.add(pair1);
-        pairList.add(pair2);
+        pairList.add(pair_latitude);
+        pairList.add(pair_longtitude);
+        pairList.add(pair_usertel);
 
         RecordMyLocationService service = new RecordMyLocationService();
         if(latitude != 0.0 || longitude != 0.0){
@@ -125,55 +191,97 @@ public class MapTrackActivity extends AppCompatActivity {
             }
         }
     }
-   /* //从数据库读取位置信息
+
+    //获取指定日期的位置信息
     public List<Location> getLocations()
     {
         btnSearching.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(new Runnable() {
-
                     @Override
                     public void run() {
-
-                        Message msg = new Message();
-
+                        Message message = new Message();
                         //获取用户输入的日期信息
-                        dateString =etDate.getText().toString();
-
-                        Log.e("location", "======================start to get location==============");
-
+                        dateString = etDate.getText().toString();
                         List<NameValuePair> pairList = new ArrayList<NameValuePair>();
-                        NameValuePair pair = new BasicNameValuePair("username", username);
-                        NameValuePair pair1 = new BasicNameValuePair("datefrom", dateString);
-                        pairList.add(pair);
-                        pairList.add(pair1);
+                        NameValuePair pair_usertel = new BasicNameValuePair("usertel", usertel);
+                        NameValuePair pair_dateString = new BasicNameValuePair("dateString",dateString);
 
-                        GetLocationService getlocation= new GetLocationService();
-                        location = getlocation.HttpPost(pairList);
+                        pairList.add(pair_usertel);
+                        pairList.add(pair_dateString);
 
-                        if(location.size() != 0){
+                        getLocationService getlocation= new getLocationService();
+                        locationArrayList = getlocation.HttpPost(pairList);
+                        if(locationArrayList.size() != 0){
 
-                            Log.e("location", location.toString());
+                            Log.e("location", locationArrayList.toString());
 
-                            if(location.size() > 2){
-                                //在图上添加点，线等
-                                //addCustomElementsDemo(location);
+                            if(locationArrayList.size() > 2){
+                                addCustomElementsDemo(locationArrayList);
                             }
 
-                            msg.what = 1;
+                            message.what = 1;
                         }else{
-                            msg.what = 2;
+                            message.what = 2;
                         }
-                        handler.sendMessage(msg);
+                        handler.sendMessage(message);
+
                     }
                 }).start();
             }
         });
+        return locationArrayList;
+    }
+    private  Handler handler = new Handler(){
+
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    Log.e("getLocation", "get!");
+                    break;
+                case 2:
+                    Log.e("getLocation", "nonoon!");
+                    Toast.makeText(getContext(), "此时间段内没有位置信息记录！",
+                            Toast.LENGTH_LONG).show();
+                    break;
+                default:
+                    break;
             }
-        });
-        return location;
-    }*/
+        }
+    };
+    /**
+     * 在地图上添加点、线等
+     */
+    public void addCustomElementsDemo(List<Location> location) {
+
+        if(location != null){
+
+            List<LatLng> points = new ArrayList<LatLng>();
+
+            for(int i = 0; i < location.size(); i++){
+                double lati = Double.parseDouble(location.get(i).getLatitude());
+                double longi = Double.parseDouble(location.get(i).getLongitude());
+
+                LatLng llDot = new LatLng(lati, longi);
+                points.add(llDot);
+            }
+            //添加折线
+            OverlayOptions ooPolyline = new PolylineOptions().width(10)
+                    .color(0xAAFF0000).points(points);
+            mBaiduMap.addOverlay(ooPolyline);
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.search_guide_btn:
+
+                break;
+        }
+    }
+
     //定位SDK监听函数
     public class MyLocationListenner implements BDLocationListener {
         @Override

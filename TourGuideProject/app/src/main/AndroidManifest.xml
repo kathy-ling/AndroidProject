@@ -28,7 +28,7 @@
         <!-- 添加开发者密钥 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="dcuoWXmi7KdB70zVGncWLbZAldRw1e6R" />
+            android:value="07vWk6dzhbpihQsryncgtvjEoKq1KZcY" />
 
         <service
             android:name="com.baidu.location.f"

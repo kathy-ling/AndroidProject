@@ -34,6 +34,8 @@
                 android:layout_height="match_parent"
                 android:inputType="date"
                 android:layout_weight="1"
+                android:text="请选择日期"
+                android:textColor="#33ccff"
                 />
             <Button
                 android:id="@+id/btnTrackSearching"
@@ -41,6 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="查看轨迹"
+                android:clickable="true"
                 />
 
         </LinearLayout>>
