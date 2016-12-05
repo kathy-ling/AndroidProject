@@ -19,6 +19,7 @@ import com.example.tian.tourguideproject.MainActivity;
 import com.example.tian.tourguideproject.R;
 import com.example.tian.tourguideproject.com.example.HttpService.GetGuidesInfoService;
 import com.example.tian.tourguideproject.com.example.adapter.GuideInfoListAdapter;
+import com.example.tian.tourguideproject.com.example.bean.DetailGuideInfo;
 import com.example.tian.tourguideproject.com.example.bean.SimpleGuideInfoListItem;
 import com.example.tian.tourguideproject.com.example.utils.MyRadioGroup;
 
@@ -99,7 +100,9 @@ public class FindGuideActivity extends Activity implements
 
         totalGuidesTxt = (TextView)findViewById(R.id.guides_meet_condition);
 
-//        initGuideInfo();
+//        SimpleGuideInfoListItem guide = new SimpleGuideInfoListItem(null, "name-test","3",
+//                "intro----------------","500","6496413");
+//        guideInfoList.add(guide);
 
         /**从服务端获取导游的信息*/
         guideInfoList = getAllGuidesInfo();

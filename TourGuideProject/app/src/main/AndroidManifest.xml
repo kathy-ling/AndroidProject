@@ -55,6 +55,7 @@
         <activity android:name=".com.example.GuideInfosActivity" />
         <activity android:name=".com.example.GuideReserveInfoActivity"/>
         <activity android:name=".com.example.FindGuideActivity"/>
+
     </application>
 
 </manifest>

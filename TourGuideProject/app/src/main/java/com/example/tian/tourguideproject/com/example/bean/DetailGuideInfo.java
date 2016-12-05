@@ -1,6 +1,8 @@
 package com.example.tian.tourguideproject.com.example.bean;
 
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by tian on 2016/12/1.
@@ -20,12 +22,14 @@ public class DetailGuideInfo {
     private String guideIntro;  //个人介绍
     private String guidePrice;  //价钱
     private String guideNumID;  //导游身份证号
+    private String guideLanguage;
 
     public DetailGuideInfo(String guideAge, String guideSex,
                            String guideLevel, String guideCertificateID,
                            Drawable guideImage, String guideName,
                            String guideWorkAge, String guideIntro,
-                           String guidePrice, String guideNumID) {
+                           String guidePrice, String guideNumID,
+                           String guideLanguage) {
         this.guideAge = guideAge;
         this.guideSex = guideSex;
         this.guideLevel = guideLevel;
@@ -36,6 +40,11 @@ public class DetailGuideInfo {
         this.guideIntro = guideIntro;
         this.guidePrice = guidePrice;
         this.guideNumID = guideNumID;
+        this.guideLanguage = guideLanguage;
+    }
+
+    public String getGuideLanguage() {
+        return guideLanguage;
     }
 
     public Drawable getGuideImage() {
@@ -116,5 +125,9 @@ public class DetailGuideInfo {
 
     public void setGuidePrice(String guidePrice) {
         this.guidePrice = guidePrice;
+    }
+
+    public void setGuideLanguage(String guideLanguage) {
+        this.guideLanguage = guideLanguage;
     }
 }

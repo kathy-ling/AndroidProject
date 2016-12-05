@@ -22,6 +22,8 @@ public class GuideReserveInfoActivity extends Activity {
         setContentView(R.layout.reserve_info_page);
 
         setTopBar("导游姓名");
+
+
     }
 
     /*
