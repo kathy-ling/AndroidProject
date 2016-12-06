@@ -1,4 +1,4 @@
-package com.example.tian.tourguideproject.com.example.bean;
+package com.example.tian.tourguideproject.com.example.HttpService;
 
 import android.util.Log;
 
@@ -16,7 +16,7 @@ import java.util.List;
  * Created by 高茜茜09 on 2016/11/30.
  */
 public class RecordMyLocationService {
-    private static String URL = "http://10.50.62.1:8080/SpringMe/UpdateLocOfVisitor?x=12.0&y=13.0&phone=15029319152";
+    private static String URL = "http://10.50.63.62:8080/SpringMe/UpdateLocOfVisitor.do";
 
     private boolean result = false;
 

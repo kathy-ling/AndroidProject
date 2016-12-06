@@ -44,8 +44,7 @@ public class MainActivity extends AppCompatActivity
 
     private  Fragment currentFragment = null;
 
-    //定义手机号为全局变量
-    public static String usertel;
+
 
     // Make sure to be using android.support.v7.app.ActionBarDrawerToggle version.
     // The android.support.v4.app.ActionBarDrawerToggle has been deprecated.
@@ -53,6 +52,8 @@ public class MainActivity extends AppCompatActivity
 
     public static MainActivity mainActivity;
 
+    //定义手机号为全局变量
+    public static String usertel = "15029319152";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -182,8 +183,8 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_tour) {
 
-//            Intent intent = new Intent(MainActivity.this, MapTrackActivity.class);
-//            startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, MapTrackActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_service) {
 

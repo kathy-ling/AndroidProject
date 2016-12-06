@@ -18,11 +18,11 @@ import com.example.tian.tourguideproject.com.example.bean.OverLayInfo;
  */
 public class ClickOverlayFragment extends Fragment {
 
-    LinearLayout ll;
     //初始化控件
-    ImageView iv ;
-    TextView tv1;
-    TextView tv2;
+    LinearLayout ll_showMarkInfo;
+    ImageView iv_overlayImg ;
+    TextView tv_overlayName;
+    TextView tv_overlayDecription;
 
 
     public ClickOverlayFragment() {
@@ -38,16 +38,17 @@ public class ClickOverlayFragment extends Fragment {
         //参数接收
         Bundle bundle = getArguments();
         OverLayInfo info =(OverLayInfo) bundle.getSerializable("Info");
-        iv = (ImageView) view.findViewById (R.id.iv_img);
-        tv1 = (TextView) view.findViewById (R.id.tv_name);
-        tv2 = (TextView) view.findViewById (R.id.tv_description);
-        ll = (LinearLayout) view.findViewById(R.id.ll_marker);
+        iv_overlayImg = (ImageView) view.findViewById (R.id.iv_overlayImg);
+        tv_overlayName = (TextView) view.findViewById (R.id.tv_overlayName);
+        tv_overlayDecription = (TextView) view.findViewById (R.id.tv_overlayDescription);
+        ll_showMarkInfo = (LinearLayout) view.findViewById(R.id.ll_marker);
+        //显示详细信息
         try
         {
-            iv.setBackgroundResource(info.getImgId());
-            tv1.setText(info.getName());
-            tv2.setText(info.getDescription());
-            ll.setVisibility(View.VISIBLE);
+            iv_overlayImg.setBackgroundResource(info.getImgId());
+            tv_overlayName.setText(info.getName());
+            tv_overlayDecription.setText(info.getDescription());
+            ll_showMarkInfo.setVisibility(View.VISIBLE);
         }
         catch (Exception e)
         {
