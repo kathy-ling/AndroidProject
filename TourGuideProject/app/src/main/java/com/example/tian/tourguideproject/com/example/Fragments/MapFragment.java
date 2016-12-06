@@ -1,7 +1,6 @@
-package com.example.tian.tourguideproject.com.example;
+package com.example.tian.tourguideproject.com.example.Fragments;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,7 +23,7 @@ import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
 import com.example.tian.tourguideproject.R;
-import com.example.tian.tourguideproject.com.example.ClickOverlayFragment;
+import com.example.tian.tourguideproject.com.example.Fragments.ClickOverlayFragment;
 import com.example.tian.tourguideproject.com.example.bean.OverLayInfo;
 
 import java.util.List;

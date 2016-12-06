@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tian.tourguideproject.R;
-import com.example.tian.tourguideproject.com.example.HttpService.GetUserInfoService;
 import com.example.tian.tourguideproject.com.example.HttpService.ResetUserPswService;
 
 /**

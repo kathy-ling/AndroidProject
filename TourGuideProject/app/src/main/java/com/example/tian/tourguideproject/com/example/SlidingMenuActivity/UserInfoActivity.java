@@ -2,6 +2,10 @@ package com.example.tian.tourguideproject.com.example.SlidingMenuActivity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Handler;
@@ -13,9 +17,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tian.tourguideproject.R;
-import com.example.tian.tourguideproject.com.example.HttpService.GetUserInfoService;
 import com.example.tian.tourguideproject.com.example.adapter.UserInfoListAdapter;
 import com.example.tian.tourguideproject.com.example.bean.SimpleUserInfoListItem;
+import com.example.tian.tourguideproject.com.example.utils.HttpUtils;
+import com.example.tian.tourguideproject.com.example.utils.ImageTools;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +49,7 @@ public class UserInfoActivity extends Activity {
         //初始化用户信息
 //        userinfoList = initUserInfo();
 
+        //从服务端获取用户的信息
         userinfoList = getUserInfo();
 
         UserInfoListAdapter adapter = new UserInfoListAdapter(UserInfoActivity.this,
@@ -122,8 +133,13 @@ public class UserInfoActivity extends Activity {
             @Override
             public void run() {
 
-                GetUserInfoService getUserInfoService = new GetUserInfoService();
-                userinfoList = getUserInfoService.executeHttpPost("15029319152");
+                List <NameValuePair> params = new ArrayList<NameValuePair>();
+                params.add(new BasicNameValuePair("userTel", "15029319152"));
+
+                String url = HttpUtils.BASE_URL + "/getphonenumber.do";
+                String result = HttpUtils.queryStringForPost(url, params);
+
+                userinfoList = userInfoJsonTool(result);
 
                 Message msg = new Message();
 
@@ -151,7 +167,7 @@ public class UserInfoActivity extends Activity {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    Log.e("test", "++++++++++++");
+                    Log.e("userInfo", "get user info OK!");
 
                     break;
                 default:
@@ -159,4 +175,48 @@ public class UserInfoActivity extends Activity {
             }
         }
     };
+
+    /**
+     * 解析服务端返回的json
+     */
+    public List<SimpleUserInfoListItem> userInfoJsonTool(String str){
+
+        byte[] data = null;
+        List<SimpleUserInfoListItem> userinfoList = new ArrayList<>();
+        ImageTools imageTools = new ImageTools();
+
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            String image = jsonObject.getString("userImage");
+            String name = jsonObject.getString("userName");
+            String nickName = jsonObject.getString("userNickName");
+            String phone = jsonObject.getString("userTel");
+            String sex = jsonObject.getString("userSex");
+
+            try {
+                data = imageTools.getImage(image);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);//生成位图
+            bitmap = imageTools.settingImage(bitmap);
+            Drawable drawable = new BitmapDrawable(bitmap);
+
+            SimpleUserInfoListItem userImage = new SimpleUserInfoListItem("头像", drawable);
+            userinfoList.add(userImage);
+            SimpleUserInfoListItem userName = new SimpleUserInfoListItem("姓名", name);
+            userinfoList.add(userName);
+            SimpleUserInfoListItem userNickname = new SimpleUserInfoListItem("昵称", nickName);
+            userinfoList.add(userNickname);
+            SimpleUserInfoListItem userTel = new SimpleUserInfoListItem("手机号", phone);
+            userinfoList.add(userTel);
+            SimpleUserInfoListItem userSex = new SimpleUserInfoListItem("性别", sex);
+            userinfoList.add(userSex);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return userinfoList;
+    }
 }

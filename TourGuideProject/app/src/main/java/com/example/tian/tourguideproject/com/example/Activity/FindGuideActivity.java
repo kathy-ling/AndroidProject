@@ -1,7 +1,11 @@
-package com.example.tian.tourguideproject.com.example;
+package com.example.tian.tourguideproject.com.example.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,17 +19,17 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.example.tian.tourguideproject.MainActivity;
 import com.example.tian.tourguideproject.R;
-import com.example.tian.tourguideproject.com.example.HttpService.GetGuidesInfoService;
 import com.example.tian.tourguideproject.com.example.adapter.GuideInfoListAdapter;
-import com.example.tian.tourguideproject.com.example.bean.DetailGuideInfo;
 import com.example.tian.tourguideproject.com.example.bean.SimpleGuideInfoListItem;
+import com.example.tian.tourguideproject.com.example.utils.HttpUtils;
+import com.example.tian.tourguideproject.com.example.utils.ImageTools;
 import com.example.tian.tourguideproject.com.example.utils.MyRadioGroup;
-
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
-
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,8 +83,6 @@ public class FindGuideActivity extends Activity implements
     private TextView totalGuidesTxt;
 
     private List<SimpleGuideInfoListItem> guideInfoList = new ArrayList<>();
-
-    private GetGuidesInfoService guideService = new GetGuidesInfoService();
 
     private List<NameValuePair> params = new ArrayList<NameValuePair>();
 
@@ -150,7 +152,12 @@ public class FindGuideActivity extends Activity implements
             public void run() {
 
                 Message msg = new Message();
-                guideInfoList = guideService.getAllGuides();
+
+                String url = HttpUtils.BASE_URL + "/getguideinfo.do";
+                String result = HttpUtils.queryStringForGet(url);
+
+                //解析获得的数据
+                guideInfoList = guideInfoJsonTool(result);
 
                 Log.e(" guideInfoList", guideInfoList.size() + "");
 
@@ -182,7 +189,11 @@ public class FindGuideActivity extends Activity implements
             public void run() {
 
                 Message msg = new Message();
-                guideInfoList = guideService.getSelectedGuides(params);
+
+                String url = HttpUtils.BASE_URL + "/getSelectedGuideInfo.do";
+                String result = HttpUtils.queryStringForPost(url, params);
+
+                guideInfoList = guideInfoJsonTool(result);
 
                 if(guideInfoList != null){
                     msg.what = 2;
@@ -326,6 +337,52 @@ public class FindGuideActivity extends Activity implements
         GuideInfoListAdapter adapter = new GuideInfoListAdapter(FindGuideActivity.this,
                 R.layout.guide_reserve_guide_list, guideInfoList);
         listView.setAdapter(adapter);
+    }
+
+    /**
+     * 解析服务端返回的数据
+     * @param str
+     */
+    public List<SimpleGuideInfoListItem> guideInfoJsonTool(String str){
+
+        List<SimpleGuideInfoListItem> guideList = new ArrayList<>();
+
+        ImageTools imageTools = new ImageTools();
+        byte[] byteImage = null;
+
+        try {
+            JSONArray jsonArray = new JSONArray(str);
+
+            for (int i = 0; i < jsonArray.length(); i++){
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String guideImagePath = jsonObject.getString("guideImage");
+                String guideName = jsonObject.getString("guideName");
+                String guideWorkAge = jsonObject.getString("guideWorkAge");
+                String guideIntro = jsonObject.getString("guideIntro");
+                String guidePrice = jsonObject.getString("guidePrice");
+                String guideNumID = jsonObject.getString("guideNumID");
+
+                try {
+                    byteImage = imageTools.getImage(guideImagePath); //将网络图片转为二进制格式
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteImage, 0,
+                        byteImage.length);//生成位图
+                bitmap = imageTools.settingImage(bitmap);
+                Drawable guideImage = new BitmapDrawable(bitmap);
+
+                SimpleGuideInfoListItem guideInfo = new SimpleGuideInfoListItem(guideImage,
+                        guideName, guideWorkAge, guideIntro, guidePrice, guideNumID);
+
+                guideList.add(guideInfo);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return guideList;
     }
 
     @Override
@@ -501,7 +558,7 @@ public class FindGuideActivity extends Activity implements
 //                Toast.LENGTH_LONG).show();
 
         //向下一个页面传入导游的身份证信息
-        Intent intent = new Intent(FindGuideActivity.this, GuideInfosActivity.class);
+        Intent intent = new Intent(FindGuideActivity.this, GuideDetailInfosActivity.class);
         intent.putExtra("guideNumID", guideInfo.getGuideNumID());
         startActivity(intent);
 

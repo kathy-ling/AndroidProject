@@ -21,11 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.example.tian.tourguideproject.com.example.FindGuideActivity;
-import com.example.tian.tourguideproject.com.example.Fragments.ReleaseOrderFragment;
-import com.example.tian.tourguideproject.com.example.Fragments.FindGuideFragment;
-import com.example.tian.tourguideproject.com.example.MapFragment;
-import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.MapTrackActivity;
+import com.example.tian.tourguideproject.com.example.Activity.FindGuideActivity;
+import com.example.tian.tourguideproject.com.example.Fragments.MapFragment;
+import com.example.tian.tourguideproject.com.example.Activity.ReleaseOrderActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.OrdersActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.SettingActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.UserInfoActivity;
@@ -210,24 +208,16 @@ public class MainActivity extends AppCompatActivity
 
                 Intent intent = new Intent(MainActivity.this, FindGuideActivity.class);
                 startActivity(intent);
-//                currentFragment = new FindGuideFragment();
-//                if (currentFragment != null) {
-//                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                    transaction.replace(R.id.content_fragment, currentFragment);
-//                    transaction.commit();
-//                }
+
                 break;
             case R.id.app_bar_release_order:
                 /**顶部bar中的发布订单*/
                 barReleaseOrderTxt.setTextColor(Color.RED);
                 barReserveTxt.setTextColor(Color.BLACK);
 
-                currentFragment = new ReleaseOrderFragment();
-                if (currentFragment != null) {
-                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.content_fragment, currentFragment);
-                    transaction.commit();
-                }
+                Intent intentRelaseOrder = new Intent(MainActivity.this, ReleaseOrderActivity.class);
+                startActivity(intentRelaseOrder);
+
                 break;
             default:
                 break;

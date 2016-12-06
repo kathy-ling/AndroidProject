@@ -52,9 +52,10 @@
         <activity android:name=".com.example.SlidingMenuActivity.OrdersActivity"/>
         <activity android:name=".com.example.SlidingMenuActivity.MapTrackActivity"/>
 
-        <activity android:name=".com.example.GuideInfosActivity" />
-        <activity android:name=".com.example.GuideReserveInfoActivity"/>
-        <activity android:name=".com.example.FindGuideActivity"/>
+        <activity android:name=".com.example.Activity.GuideDetailInfosActivity" />
+        <activity android:name=".com.example.Activity.GuideReserveInfoActivity"/>
+        <activity android:name=".com.example.Activity.FindGuideActivity"/>
+        <activity android:name=".com.example.Activity.ReleaseOrderActivity"/>
 
     </application>
 

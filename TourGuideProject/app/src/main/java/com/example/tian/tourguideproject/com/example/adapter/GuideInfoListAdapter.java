@@ -2,22 +2,17 @@ package com.example.tian.tourguideproject.com.example.adapter;
 
 
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import com.example.tian.tourguideproject.MainActivity;
 import com.example.tian.tourguideproject.R;
-import com.example.tian.tourguideproject.com.example.GuideInfosActivity;
 import com.example.tian.tourguideproject.com.example.bean.SimpleGuideInfoListItem;
 
 import java.util.List;
@@ -108,7 +103,7 @@ public class GuideInfoListAdapter extends BaseAdapter implements View.OnClickLis
 
 //                Toast.makeText(MainActivity.mainActivity, guideInfo.getGuideName(), Toast.LENGTH_LONG).show();
 
-//                Intent intent = new Intent(MainActivity.mainActivity, GuideInfosActivity.class);
+//                Intent intent = new Intent(MainActivity.mainActivity, GuideDetailInfosActivity.class);
 ////                intent.putExtra("NumID", NumID);
 //                Bundle bundle = new Bundle();
 //                bundle.putSerializable("guideInfo", guideInfo);

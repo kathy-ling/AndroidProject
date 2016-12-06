@@ -38,10 +38,12 @@
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp">
                 <TextView
+                    android:id="@+id/reserve_guide_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="姓名"/>
                 <TextView
+                    android:id="@+id/reserve_guide_sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="（性别）"/>
@@ -58,6 +60,7 @@
                     android:layout_height="wrap_content"
                     android:text="导游类型："/>
                 <TextView
+                    android:id="@+id/reserve_language_workage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="英语 | 3年"/>
@@ -85,6 +88,7 @@
                     android:layout_height="wrap_content"
                     android:text="出行人数："/>
                 <EditText
+                    android:id="@+id/reserve_person_num"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -103,6 +107,7 @@
                     android:layout_height="wrap_content"
                     android:text="预订人姓名："/>
                 <EditText
+                    android:id="@+id/reserve_person_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -121,6 +126,7 @@
                     android:layout_height="wrap_content"
                     android:text="预订人手机："/>
                 <EditText
+                    android:id="@+id/reserve_person_tel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
