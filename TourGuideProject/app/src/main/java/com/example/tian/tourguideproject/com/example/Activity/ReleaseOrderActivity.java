@@ -193,9 +193,11 @@ public class ReleaseOrderActivity extends Activity implements View.OnClickListen
         }
     };
 
+    /**
+     * 解析服务端的结果
+     */
     public String releaseInfoJsonTool(String str){
 
-//        boolean bool = false;
         String result = null;
 
         try {

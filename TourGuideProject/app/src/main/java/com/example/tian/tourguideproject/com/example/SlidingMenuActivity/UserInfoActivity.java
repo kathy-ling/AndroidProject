@@ -1,6 +1,7 @@
 package com.example.tian.tourguideproject.com.example.SlidingMenuActivity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -9,30 +10,31 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tian.tourguideproject.R;
+import com.example.tian.tourguideproject.com.example.Activity.ReleaseOrderActivity;
 import com.example.tian.tourguideproject.com.example.adapter.UserInfoListAdapter;
 import com.example.tian.tourguideproject.com.example.bean.SimpleUserInfoListItem;
 import com.example.tian.tourguideproject.com.example.utils.HttpUtils;
 import com.example.tian.tourguideproject.com.example.utils.ImageTools;
+import com.example.tian.tourguideproject.com.example.utils.SexExchange;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import static com.example.tian.tourguideproject.MainActivity.usertel;
 
-//import static com.example.tian.tourguideproject.MainActivity.usertel;
 
 /**
  * Created by tian on 2016/11/22.
@@ -41,8 +43,18 @@ import static com.example.tian.tourguideproject.MainActivity.usertel;
 public class UserInfoActivity extends Activity {
 
 
-
+    private UserInfoListAdapter adapter;
+    private ListView listView;
     private List<SimpleUserInfoListItem> userinfoList = new ArrayList<>();
+
+    private final String[] sexItem = {"男", "女"};
+
+    private String select_item;
+    private String changedSex;
+
+    private List<NameValuePair> params = new ArrayList<NameValuePair>();
+
+    Thread resetSetThread;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +70,11 @@ public class UserInfoActivity extends Activity {
         //从服务端获取用户的信息
         userinfoList = getUserInfo();
         usertel = userinfoList.get(3).getUserinfo_value();
+        select_item = changedSex = userinfoList.get(4).getUserinfo_value();
 
-        UserInfoListAdapter adapter = new UserInfoListAdapter(UserInfoActivity.this,
+        adapter = new UserInfoListAdapter(UserInfoActivity.this,
                 R.layout.userinfo_list_item, userinfoList);
-        ListView listView = (ListView)findViewById(R.id.userinfo_list_view);
+        listView = (ListView)findViewById(R.id.userinfo_list_view);
         listView.setAdapter(adapter);
         handleListViewItemClick(listView);
 
@@ -84,7 +97,8 @@ public class UserInfoActivity extends Activity {
                         Intent intent = new Intent(UserInfoActivity.this, EditUserNameActivity.class);
                         startActivity(intent);
                         break;
-                    case "":
+                    case "性别":
+                        ChangeSexDialog(sexItem, position);
                         break;
                     default:
                         break;
@@ -175,7 +189,13 @@ public class UserInfoActivity extends Activity {
             switch (msg.what) {
                 case 1:
                     Log.e("userInfo", "get user info OK!");
+                    break;
+                case 2:
+                    Log.e("sex", "reset sex OK!");
 
+                    break;
+                case 3:
+                    Log.e("sex", "reset sex failed!");
                     break;
                 default:
                     break;
@@ -184,7 +204,7 @@ public class UserInfoActivity extends Activity {
     };
 
     /**
-     * 解析服务端返回的json
+     * 解析服务端返回的json，userinfo
      */
     public List<SimpleUserInfoListItem> userInfoJsonTool(String str){
 
@@ -225,5 +245,102 @@ public class UserInfoActivity extends Activity {
             e.printStackTrace();
         }
         return userinfoList;
+    }
+
+    /**
+     * 点击对话框，修改用户的性别信息
+     * @param sexItem ，修改后的性别
+     * @param position ， listitem的position
+     */
+    public void ChangeSexDialog(final String[] sexItem, final int position){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(UserInfoActivity.this);
+
+        builder.setTitle("请选择");
+        builder.setSingleChoiceItems(sexItem, 1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                select_item = sexItem[which].toString();
+                changedSex = select_item;
+            }
+        });
+
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(UserInfoActivity.this, select_item,
+                        Toast.LENGTH_SHORT).show();
+
+                resetUserSex();
+
+                /**
+                 * 更新ListView item
+                 */
+                userinfoList.remove(position);
+                userinfoList.add(new SimpleUserInfoListItem("性别", select_item));
+                adapter.notifyDataSetChanged();
+
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+    }
+
+    public void resetUserSex(){
+
+        Log.e("in reset", "go into reset set");
+
+        Thread resetSetThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+                String sex = null;
+                Message msg = new Message();
+
+                SexExchange sexExchange = new SexExchange();
+                sex = String.valueOf(sexExchange.SexStringtoInt(select_item));
+
+                params.add(new BasicNameValuePair("userPhone", "13119275466"));
+                params.add(new BasicNameValuePair("userSex", sex));
+
+//                String url = HttpUtils.BASE_URL + "/updatevisitorsex.do";
+                String url = "http://10.50.62.40:8080/SpringMe" + "/updatevisitorsex.do";
+                String result = HttpUtils.queryStringForPost(url, params);
+
+                String ret = resetSexJsonTool(result);
+
+                if(ret.equals("true")){
+                    msg.what = 2;
+                }else if(ret.equals("false")){
+                    msg.what = 3;
+                }
+                handler.sendMessage(msg);
+            }
+        });
+
+        resetSetThread.start();
+
+        try {
+            resetSetThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String resetSexJsonTool(String str){
+
+        String result = null;
+
+        try {
+            JSONObject jsonObject = new JSONObject(str);
+            result = jsonObject.getString("result");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }
