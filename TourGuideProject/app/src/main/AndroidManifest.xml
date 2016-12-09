@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.tian.tourguideproject">
 
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
     <!-- 这个权限用于进行网络定位 -->
@@ -23,8 +22,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
         <!-- 添加开发者密钥 -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -34,6 +33,7 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
+
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
@@ -44,19 +44,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".com.example.SlidingMenuActivity.UserInfoActivity" />
         <activity android:name=".com.example.SlidingMenuActivity.EditUserNameActivity" />
         <activity android:name=".com.example.SlidingMenuActivity.SettingActivity" />
-        <activity android:name=".com.example.SlidingMenuActivity.EditUserPasswdActivity"/>
-        <activity android:name=".com.example.SlidingMenuActivity.OrdersActivity"/>
-        <activity android:name=".com.example.SlidingMenuActivity.MapTrackActivity"/>
-
+        <activity android:name=".com.example.SlidingMenuActivity.EditUserPasswdActivity" />
+        <activity android:name=".com.example.SlidingMenuActivity.OrdersActivity" />
+        <activity android:name=".com.example.SlidingMenuActivity.MapTrackActivity" />
         <activity android:name=".com.example.Activity.GuideDetailInfosActivity" />
-        <activity android:name=".com.example.Activity.GuideReserveInfoActivity"/>
-        <activity android:name=".com.example.Activity.FindGuideActivity"/>
-        <activity android:name=".com.example.Activity.ReleaseOrderActivity"/>
-
+        <activity android:name=".com.example.Activity.GuideReserveInfoActivity" />
+        <activity android:name=".com.example.Activity.FindGuideActivity" />
+        <activity android:name=".com.example.Activity.ReleaseOrderActivity" />
+        <activity android:name=".com.example.SlidingMenuActivity.OrdersDetailActivity" />
+        <activity android:name=".com.example.SlidingMenuActivity.OrdersDetailPayActivity"></activity>
     </application>
 
 </manifest>

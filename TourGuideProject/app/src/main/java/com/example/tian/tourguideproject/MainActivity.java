@@ -24,6 +24,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.example.tian.tourguideproject.com.example.Activity.FindGuideActivity;
 import com.example.tian.tourguideproject.com.example.Fragments.MapFragment;
 import com.example.tian.tourguideproject.com.example.Activity.ReleaseOrderActivity;
+import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.MapTrackActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.OrdersActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.SettingActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.UserInfoActivity;
