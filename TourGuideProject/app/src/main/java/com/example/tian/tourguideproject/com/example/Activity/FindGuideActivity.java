@@ -24,6 +24,7 @@ import com.example.tian.tourguideproject.com.example.adapter.GuideInfoListAdapte
 import com.example.tian.tourguideproject.com.example.bean.SimpleGuideInfoListItem;
 import com.example.tian.tourguideproject.com.example.utils.HttpUtils;
 import com.example.tian.tourguideproject.com.example.utils.ImageTools;
+import com.example.tian.tourguideproject.com.example.utils.JsonTools;
 import com.example.tian.tourguideproject.com.example.utils.MyRadioGroup;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -157,7 +158,7 @@ public class FindGuideActivity extends Activity implements
                 String result = HttpUtils.queryStringForGet(url);
 
                 //解析获得的数据
-                guideInfoList = guideInfoJsonTool(result);
+                guideInfoList = JsonTools.guideInfoJsonTool(result);
 
                 Log.e(" guideInfoList", guideInfoList.size() + "");
 
@@ -193,7 +194,7 @@ public class FindGuideActivity extends Activity implements
                 String url = HttpUtils.BASE_URL + "/getSelectedGuideInfo.do";
                 String result = HttpUtils.queryStringForPost(url, params);
 
-                guideInfoList = guideInfoJsonTool(result);
+                guideInfoList = JsonTools.guideInfoJsonTool(result);
 
                 if(guideInfoList != null){
                     msg.what = 2;
@@ -339,51 +340,6 @@ public class FindGuideActivity extends Activity implements
         listView.setAdapter(adapter);
     }
 
-    /**
-     * 解析服务端返回的数据
-     * @param str
-     */
-    public List<SimpleGuideInfoListItem> guideInfoJsonTool(String str){
-
-        List<SimpleGuideInfoListItem> guideList = new ArrayList<>();
-
-        ImageTools imageTools = new ImageTools();
-        byte[] byteImage = null;
-
-        try {
-            JSONArray jsonArray = new JSONArray(str);
-
-            for (int i = 0; i < jsonArray.length(); i++){
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-
-                String guideImagePath = jsonObject.getString("guideImage");
-                String guideName = jsonObject.getString("guideName");
-                String guideWorkAge = jsonObject.getString("guideWorkAge");
-                String guideIntro = jsonObject.getString("guideIntro");
-                String guidePrice = jsonObject.getString("guidePrice");
-                String guideNumID = jsonObject.getString("guideNumID");
-
-                try {
-                    byteImage = imageTools.getImage(guideImagePath); //将网络图片转为二进制格式
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-                Bitmap bitmap = BitmapFactory.decodeByteArray(byteImage, 0,
-                        byteImage.length);//生成位图
-                bitmap = imageTools.settingImage(bitmap);
-                Drawable guideImage = new BitmapDrawable(bitmap);
-
-                SimpleGuideInfoListItem guideInfo = new SimpleGuideInfoListItem(guideImage,
-                        guideName, guideWorkAge, guideIntro, guidePrice, guideNumID);
-
-                guideList.add(guideInfo);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return guideList;
-    }
 
     @Override
     public void onClick(View v) {

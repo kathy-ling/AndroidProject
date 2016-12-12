@@ -25,6 +25,7 @@ import com.example.tian.tourguideproject.com.example.adapter.UserInfoListAdapter
 import com.example.tian.tourguideproject.com.example.bean.SimpleUserInfoListItem;
 import com.example.tian.tourguideproject.com.example.utils.HttpUtils;
 import com.example.tian.tourguideproject.com.example.utils.ImageTools;
+import com.example.tian.tourguideproject.com.example.utils.JsonTools;
 import com.example.tian.tourguideproject.com.example.utils.SexExchange;
 
 import org.apache.http.NameValuePair;
@@ -160,7 +161,7 @@ public class UserInfoActivity extends Activity {
                 String url = HttpUtils.BASE_URL + "/getphonenumber.do";
                 String result = HttpUtils.queryStringForPost(url, params);
 
-                userinfoList = userInfoJsonTool(result);
+                userinfoList = JsonTools.userInfoJsonTool(result);
 
                 Message msg = new Message();
 
@@ -202,50 +203,6 @@ public class UserInfoActivity extends Activity {
             }
         }
     };
-
-    /**
-     * 解析服务端返回的json，userinfo
-     */
-    public List<SimpleUserInfoListItem> userInfoJsonTool(String str){
-
-        byte[] data = null;
-        List<SimpleUserInfoListItem> userinfoList = new ArrayList<>();
-        ImageTools imageTools = new ImageTools();
-
-        try {
-            JSONObject jsonObject = new JSONObject(str);
-            String image = jsonObject.getString("userImage");
-            String name = jsonObject.getString("userName");
-            String nickName = jsonObject.getString("userNickName");
-            String phone = jsonObject.getString("userTel");
-            String sex = jsonObject.getString("userSex");
-
-            try {
-                data = imageTools.getImage(image);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);//生成位图
-            bitmap = imageTools.settingImage(bitmap);
-            Drawable drawable = new BitmapDrawable(bitmap);
-
-            SimpleUserInfoListItem userImage = new SimpleUserInfoListItem("头像", drawable);
-            userinfoList.add(userImage);
-            SimpleUserInfoListItem userName = new SimpleUserInfoListItem("姓名", name);
-            userinfoList.add(userName);
-            SimpleUserInfoListItem userNickname = new SimpleUserInfoListItem("昵称", nickName);
-            userinfoList.add(userNickname);
-            SimpleUserInfoListItem userTel = new SimpleUserInfoListItem("手机号", phone);
-            userinfoList.add(userTel);
-            SimpleUserInfoListItem userSex = new SimpleUserInfoListItem("性别", sex);
-            userinfoList.add(userSex);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return userinfoList;
-    }
 
     /**
      * 点击对话框，修改用户的性别信息
@@ -302,14 +259,14 @@ public class UserInfoActivity extends Activity {
                 SexExchange sexExchange = new SexExchange();
                 sex = String.valueOf(sexExchange.SexStringtoInt(select_item));
 
-                params.add(new BasicNameValuePair("userPhone", "13119275466"));
+                params.add(new BasicNameValuePair("userPhone", "15029319152"));
                 params.add(new BasicNameValuePair("userSex", sex));
 
 //                String url = HttpUtils.BASE_URL + "/updatevisitorsex.do";
-                String url = "http://10.50.62.40:8080/SpringMe" + "/updatevisitorsex.do";
+                String url = "http://10.50.63.83:8080/SpringMe" + "/updatevisitorsex.do";
                 String result = HttpUtils.queryStringForPost(url, params);
 
-                String ret = resetSexJsonTool(result);
+                String ret = JsonTools.resetSexJsonTool(result);
 
                 if(ret.equals("true")){
                     msg.what = 2;
@@ -327,20 +284,5 @@ public class UserInfoActivity extends Activity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    public String resetSexJsonTool(String str){
-
-        String result = null;
-
-        try {
-            JSONObject jsonObject = new JSONObject(str);
-            result = jsonObject.getString("result");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return result;
     }
 }

@@ -30,6 +30,8 @@ import com.example.tian.tourguideproject.com.example.adapter.MyFragmentAdapter;
 import com.example.tian.tourguideproject.com.example.bean.DetailGuideInfo;
 import com.example.tian.tourguideproject.com.example.utils.HttpUtils;
 import com.example.tian.tourguideproject.com.example.utils.ImageTools;
+import com.example.tian.tourguideproject.com.example.utils.JsonTools;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -148,7 +150,7 @@ public class GuideDetailInfosActivity extends FragmentActivity implements
                 String url = HttpUtils.BASE_URL + "/getGuideNumID.do";
                 String result = HttpUtils.queryStringForPost(url, params);
 
-                guideInfo = guideInfoJsonTool(result);
+                guideInfo = JsonTools.guideDetailInfoJsonTool(result);
 
                 if(guideInfo != null){
                     msg.what = 1;
@@ -297,53 +299,6 @@ public class GuideDetailInfosActivity extends FragmentActivity implements
                 break;
         }
 
-    }
-
-    /**
-     * 解析服务端返回的数据
-     * @param str
-     */
-    public DetailGuideInfo guideInfoJsonTool(String str){
-
-        ImageTools imageTools = new ImageTools();
-        byte[] byteImage = null;
-
-        try {
-
-            JSONObject jsonObject = new JSONObject(str);
-
-            String guideImagePath = jsonObject.getString("guideImage");
-            String guideName = jsonObject.getString("guideName");
-            String guideWorkAge = jsonObject.getString("guideWorkAge");
-            String guideIntro = jsonObject.getString("guideIntro");
-            String guidePrice = jsonObject.getString("guidePrice");
-            String guideNumID = jsonObject.getString("guideNumID");
-            String guideLevel = jsonObject.getString("guideLevel");
-            String guideSex = jsonObject.getString("guideSex");
-            String guideAge = jsonObject.getString("guideAge");
-            String guideLanguage = jsonObject.getString("guideLanguage");
-            String guideCertificateID = jsonObject.getString("guideCertificateID");
-
-            try {
-                byteImage = imageTools.getImage(guideImagePath); //将网络图片转为二进制格式
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            Bitmap bitmap = BitmapFactory.decodeByteArray(byteImage, 0,
-                    byteImage.length);//生成位图
-            bitmap = imageTools.settingImage(bitmap);
-            Drawable guideImage = new BitmapDrawable(bitmap);
-
-            guideInfo = new DetailGuideInfo(guideAge, guideSex, guideLevel,
-                    guideCertificateID, guideImage, guideName, guideWorkAge, guideIntro,
-                    guidePrice, guideNumID, guideLanguage);
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return guideInfo;
     }
 
 }
