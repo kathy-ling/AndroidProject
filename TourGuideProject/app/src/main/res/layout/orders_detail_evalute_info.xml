@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical">
 
     <include
@@ -25,39 +25,37 @@
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"/>
             <include
-                layout="@layout/orders_pay_time"
+                layout="@layout/orders_evalute_time"
                 />
-        </LinearLayout>>
+        </LinearLayout>
 
 
     </ScrollView>
 
     <RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="20dp"
-    android:paddingRight="10dp">
-    <Button
-        android:id="@+id/bt_orders_pay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="付款"
-        android:textColor="@color/colorPrimary"
-        android:background="@color/colorOrange"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginLeft="15dp"
-        android:clickable="true"/>
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="15dp"
+        android:paddingRight="10dp">
         <Button
-            android:id="@+id/bt_orders_cancel"
+            android:id="@+id/bt_orders_evalute"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="取消订单"
-            android:background="@color/colorPrimary"
-            android:clickable="true"
+            android:text="评价"
+            android:textColor="@color/colorPrimary"
+            android:background="@color/colorOrange"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/bt_orders_pay" />
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="15dp"
+            android:clickable="true"/>
+        <!--<Button
+            android:id="@+id/bt_orders_cancel_evalute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/bt_orders_evalute"
+            android:clickable="true"/>-->
 
     </RelativeLayout>
 
