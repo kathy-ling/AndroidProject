@@ -20,7 +20,7 @@ import java.util.List;
 
 public class HttpUtils {
 
-    public static final String BASE_URL="http://10.50.63.62:8080/SpringMe";
+    public static final String BASE_URL="http://10.50.63.83:8080/SpringMe";
 
     public static String result = null;
 

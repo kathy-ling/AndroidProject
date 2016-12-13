@@ -36,11 +36,12 @@ import java.util.List;
 
 /**
  * Created by tian on 2016/12/1.
+ * 需要实现listview中的自定义接口 Callback
  */
 
 public class FindGuideActivity extends Activity implements
         View.OnClickListener, RadioGroup.OnCheckedChangeListener,
-        AdapterView.OnItemClickListener{
+        GuideInfoListAdapter.Callback{
 
     private ListView listView;
 
@@ -103,10 +104,6 @@ public class FindGuideActivity extends Activity implements
 
         totalGuidesTxt = (TextView)findViewById(R.id.guides_meet_condition);
 
-//        SimpleGuideInfoListItem guide = new SimpleGuideInfoListItem(null, "name-test","3",
-//                "intro----------------","500","6496413");
-//        guideInfoList.add(guide);
-
         /**从服务端获取导游的信息*/
         guideInfoList = getAllGuidesInfo();
 
@@ -114,10 +111,9 @@ public class FindGuideActivity extends Activity implements
         totalGuidesTxt.setText(guideInfoList.size()+"");
 
         GuideInfoListAdapter adapter = new GuideInfoListAdapter(FindGuideActivity.this,
-                R.layout.guide_reserve_guide_list, guideInfoList);
+                R.layout.guide_reserve_guide_list, guideInfoList, this); //this->callback
         listView = (ListView)findViewById(R.id.reserve_guide_listview);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
 
         initRadioGroup();
 
@@ -336,7 +332,7 @@ public class FindGuideActivity extends Activity implements
         totalGuidesTxt.setText(guideInfoList.size()+"");
 
         GuideInfoListAdapter adapter = new GuideInfoListAdapter(FindGuideActivity.this,
-                R.layout.guide_reserve_guide_list, guideInfoList);
+                R.layout.guide_reserve_guide_list, guideInfoList, this);
         listView.setAdapter(adapter);
     }
 
@@ -500,23 +496,34 @@ public class FindGuideActivity extends Activity implements
                 }
             };
 
+
     /**
-     * 处理每个list item的点击事件
+     * 接口方法，响应ListView内部的按钮点击事件
+     * @param view
      * 跳转到导游的详细信息界面
      */
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    public void clickInListView(View view) {
 
-        SimpleGuideInfoListItem guideInfo = guideInfoList.get(position);
+        SimpleGuideInfoListItem guideInfo = guideInfoList.get((Integer) view.getTag());
 
-//        Toast.makeText(MainActivity.mainActivity,
-//                guideInfo.getGuideNumID() + guideInfo.getGuideName() ,
+        switch (view.getId()) {
+            /**点击查看导游的详细信息*/
+            case R.id.guide_image_list_item:
+            case R.id.guide_name_list_item:
+            case R.id.check_btn_guide_list_item:
+
+//                Toast.makeText(FindGuideActivity.this,
+//                        "listview的内部的按钮被点击了！，位置是-->" + (Integer) view.getTag() ,
 //                Toast.LENGTH_LONG).show();
 
-        //向下一个页面传入导游的身份证信息
-        Intent intent = new Intent(FindGuideActivity.this, GuideDetailInfosActivity.class);
-        intent.putExtra("guideNumID", guideInfo.getGuideNumID());
-        startActivity(intent);
-
+                //向下一个页面传入导游的身份证信息
+                Intent intent = new Intent(FindGuideActivity.this, GuideDetailInfosActivity.class);
+                intent.putExtra("guideNumID", guideInfo.getGuideNumID());
+                startActivity(intent);
+                break;
+        }
     }
+
+
 }
