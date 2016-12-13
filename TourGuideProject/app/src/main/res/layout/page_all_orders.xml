@@ -3,11 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="10dp"
-<<<<<<< HEAD
     android:paddingRight="5dp">
-=======
-    android:paddingRight="10dp">
->>>>>>> 5ab70d00474bb7f3965d5cf162f384fe69fdfa18
+<!--=======-->
+<!--&gt;>>>>>> 5ab70d00474bb7f3965d5cf162f384fe69fdfa18-->
 
     <!--<TextView
         android:layout_width="wrap_content"

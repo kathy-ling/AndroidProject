@@ -6,6 +6,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.example.tian.tourguideproject.com.example.bean.DetailGuideInfo;
+import com.example.tian.tourguideproject.com.example.bean.OrdersMainInfoListItem;
 import com.example.tian.tourguideproject.com.example.bean.SimpleGuideInfoListItem;
 import com.example.tian.tourguideproject.com.example.bean.SimpleUserInfoListItem;
 
@@ -197,5 +198,37 @@ public class JsonTools {
         }
 
         return result;
+    }
+
+    /**
+     * 解析服务端返回的数据
+     * 全部订单的所有数据
+     */
+    public static List<OrdersMainInfoListItem> ordersMainJsonTool(String str)
+    {
+        List<OrdersMainInfoListItem> ordersMainList = new ArrayList<>();
+        try
+        {
+            JSONArray jsonArray = new JSONArray(str);
+            for(int i = 0 ; i < jsonArray.length(); i++)
+            {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+
+                String bugdet = jsonObject.getString("budget");
+                String orderNo = jsonObject.getString("OrderNo");
+                String orderStatus = jsonObject.getString("orderStatus");
+                String personNum = jsonObject.getString("personNum");
+                String visitTime = jsonObject.getString("visitTime");
+
+                OrdersMainInfoListItem ordersMainInfo = new OrdersMainInfoListItem(orderNo,personNum,visitTime,bugdet,orderStatus);
+
+                ordersMainList.add(ordersMainInfo);
+            }
+        }
+        catch (JSONException e)
+        {
+            e.printStackTrace();
+        }
+        return ordersMainList;
     }
 }

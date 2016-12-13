@@ -41,9 +41,14 @@ public class AllOrdersFragment extends Fragment implements AdapterView.OnItemCli
 
         initView(view);
 
-        ordersMainInfoList = getOrdersGuideInfo();
+        /**获得OrderActivity中的全部订单信息*/
+        OrdersActivity ordersActivity = new OrdersActivity();
+        ordersMainInfoList = ordersActivity.getOrdersMainInfo();
+
+        /**为listview传值*/
         listView = (ListView) view.findViewById(R.id.orders_all_listview);
-        OrdersGuideInfoAdapter adapter = new OrdersGuideInfoAdapter(this.getActivity(),R.layout.page_all_orders,ordersMainInfoList);
+        OrdersGuideInfoAdapter adapter = new OrdersGuideInfoAdapter(this.getActivity(),
+                R.layout.page_all_orders,ordersMainInfoList);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
         return view;
@@ -55,23 +60,6 @@ public class AllOrdersFragment extends Fragment implements AdapterView.OnItemCli
         visitorNum = (TextView) view.findViewById(R.id.orders_visitors_num);
         visitortime = (TextView) view.findViewById(R.id.orders_visitors_time);
         ordersMoney = (TextView) view.findViewById(R.id.orders_money);
-    }
-
-    /**获得订单中要显示的信息*/
-    public List<OrdersMainInfoListItem> getOrdersGuideInfo()
-    {
-        List<OrdersMainInfoListItem> guidelist = new ArrayList<>();
-        String ordersID = "12345";
-        String visitorsNum = "5人";
-        String visitorsTime = "2016-12-8";
-        String visitorsMoney = "300元";
-
-        OrdersMainInfoListItem guideInfo = new OrdersMainInfoListItem(ordersID,visitorsNum,visitorsTime,visitorsMoney);
-        for(int i = 0; i < 8 ; i++)
-        {
-            guidelist.add(guideInfo);
-        }
-        return guidelist;
     }
 
     @Override

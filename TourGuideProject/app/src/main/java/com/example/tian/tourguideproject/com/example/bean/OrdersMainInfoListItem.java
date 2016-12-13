@@ -12,13 +12,15 @@ public class OrdersMainInfoListItem {
     private String ordersVisitorsNum;  //参观人数
     private String ordersVisitorsTime; //参观时间
     private String ordersMoney;  //订单总额
+    private String ordersStatus;  //订单状态
 
-    public OrdersMainInfoListItem(String ordersID,String ordersVisitorsNum,String ordersVisitorsTime,String ordersMoney)
+    public OrdersMainInfoListItem(String ordersID,String ordersVisitorsNum,String ordersVisitorsTime,String ordersMoney,String ordersStatus)
     {
         this.ordersID = ordersID;
         this.ordersVisitorsNum = ordersVisitorsNum;
         this.ordersVisitorsTime = ordersVisitorsTime;
         this.ordersMoney = ordersMoney;
+        this.ordersStatus = ordersStatus;
     }
 
     public String getOrdersID()
@@ -36,6 +38,10 @@ public class OrdersMainInfoListItem {
     public String getOrdersMoney()
     {
         return ordersMoney;
+    }
+    public String getOrdersStatus()
+    {
+        return ordersStatus;
     }
 
 
@@ -56,4 +62,8 @@ public class OrdersMainInfoListItem {
         this.ordersMoney = ordersMoney;
     }
 
+    public void setOrdersStatus(String ordersStatus)
+    {
+        this.ordersStatus = ordersStatus;
+    }
 }

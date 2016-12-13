@@ -4,25 +4,37 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.os.Message;
+import android.widget.Toast;
 
 import com.example.tian.tourguideproject.R;
+import com.example.tian.tourguideproject.com.example.Activity.FindGuideActivity;
 import com.example.tian.tourguideproject.com.example.SlidingMenuFragment.AllOrdersFragment;
 import com.example.tian.tourguideproject.com.example.SlidingMenuFragment.BeConfirmOrdersFragment;
 import com.example.tian.tourguideproject.com.example.SlidingMenuFragment.BeDealOrdersFragment;
 import com.example.tian.tourguideproject.com.example.SlidingMenuFragment.BeEvaluateOrdersFragment;
 import com.example.tian.tourguideproject.com.example.adapter.MyFragmentAdapter;
 import com.example.tian.tourguideproject.com.example.bean.OrdersMainInfoListItem;
+import com.example.tian.tourguideproject.com.example.utils.HttpUtils;
+import com.example.tian.tourguideproject.com.example.utils.JsonTools;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.example.tian.tourguideproject.MainActivity.usertel;
 
 /**
  * Created by tian on 2016/11/22.
@@ -56,6 +68,19 @@ public class OrdersActivity extends FragmentActivity implements
 
     private ViewPager myViewPager;
 
+    /**全部订单的所有信息*/
+    private Thread getOrdersMainThread;
+    private List<OrdersMainInfoListItem> ordersMainList = new ArrayList<>();
+    private List<OrdersMainInfoListItem> ordersMainList1 = new ArrayList<>();
+    private List<OrdersMainInfoListItem> ordersMainList2 = new ArrayList<>();
+
+    private static String ordersID;
+    private static String visitorsNum;
+    private static String visitorsTime;
+    private static String ordersMoney;
+    private static String orderStauts;
+
+    String status = "2";
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -64,8 +89,57 @@ public class OrdersActivity extends FragmentActivity implements
 
         setTopBar("我的订单");
 
+        //从服务器端获取全部订单的所有信息
+        ordersMainList = getOrdersMainInfo();
+
+
         initView();
     }
+
+    /**从服务器端获取全部订单的所有信息*/
+    public List<OrdersMainInfoListItem> getOrdersMainInfo()
+    {
+        getOrdersMainThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Message msg = new Message();
+                String url = HttpUtils.BASE_URL + "/getReleaseOrders.do";
+
+                List<NameValuePair> pairList = new ArrayList<NameValuePair>();
+                NameValuePair pair_usertel = new BasicNameValuePair("userPhone", usertel);
+                pairList.add(pair_usertel);
+
+                String result = HttpUtils.queryStringForPost(url,pairList);
+                ordersMainList = JsonTools.ordersMainJsonTool(result);
+
+                if(ordersMainList != null)
+                {
+                    msg.what = 1;
+                }
+                handler.sendMessage(msg);
+            }
+        });
+        getOrdersMainThread.start();
+        try {
+            getOrdersMainThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return ordersMainList;
+    }
+
+    private Handler handler = new Handler(){
+
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    break;
+                case 2:
+                default:
+                    break;
+            }
+        }
+    };
 
     /*
     设置TopBar的标题和返回按钮
