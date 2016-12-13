@@ -1,23 +1,20 @@
 package com.example.tian.tourguideproject.com.example.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import com.example.tian.tourguideproject.R;
-import com.example.tian.tourguideproject.com.example.bean.SimpleGuideInfoListItem;
 import com.example.tian.tourguideproject.com.example.bean.SimpleUserInfoListItem;
 
 import java.util.List;
 
 /**
  * Created by tian on 2016/11/21.
+ * 用户个人信息界面
  */
 
 public class UserInfoListAdapter extends BaseAdapter {
@@ -87,29 +84,30 @@ public class UserInfoListAdapter extends BaseAdapter {
         return convertView;
     }
 
-    private static class ViewHolder{
+    private class ViewHolder{
 
         TextView NameItem;
         TextView ValueItem;
         ImageView ImageItem;
     }
 
-    public void updataView(int posi, SimpleUserInfoListItem changedValue, ListView listView) {
-
-        int visibleFirstPosi = listView.getFirstVisiblePosition();
-        int visibleLastPosi = listView.getLastVisiblePosition();
-        Log.e("in update", "got to update method");
-
-        if (posi >= visibleFirstPosi && posi <= visibleLastPosi) {
-            View view = listView.getChildAt(posi - visibleFirstPosi);
-            ViewHolder holder = (ViewHolder) view.getTag();
-
-            holder.NameItem.setText(changedValue.getUserinfo_name());
-            holder.ValueItem.setText(changedValue.getUserinfo_value());
-            item.set(posi, changedValue);
-        } else {
-            SimpleUserInfoListItem userinfoItem = item.get(posi);
-            item.set(posi, userinfoItem);
-        }
-    }
+    //无效
+//    public void updataView(int posi, SimpleUserInfoListItem changedValue, ListView listView) {
+//
+//        int visibleFirstPosi = listView.getFirstVisiblePosition();
+//        int visibleLastPosi = listView.getLastVisiblePosition();
+//        Log.e("in update", "got to update method");
+//
+//        if (posi >= visibleFirstPosi && posi <= visibleLastPosi) {
+//            View view = listView.getChildAt(posi - visibleFirstPosi);
+//            ViewHolder holder = (ViewHolder) view.getTag();
+//
+//            holder.NameItem.setText(changedValue.getUserinfo_name());
+//            holder.ValueItem.setText(changedValue.getUserinfo_value());
+//            item.set(posi, changedValue);
+//        } else {
+//            SimpleUserInfoListItem userinfoItem = item.get(posi);
+//            item.set(posi, userinfoItem);
+//        }
+//    }
 }

@@ -61,11 +61,12 @@ public class AllOrdersFragment extends Fragment implements AdapterView.OnItemCli
     public List<OrdersMainInfoListItem> getOrdersGuideInfo()
     {
         List<OrdersMainInfoListItem> guidelist = new ArrayList<>();
+        String ordersID = "12345";
         String visitorsNum = "5人";
         String visitorsTime = "2016-12-8";
         String visitorsMoney = "300元";
 
-        OrdersMainInfoListItem guideInfo = new OrdersMainInfoListItem(visitorsNum,visitorsTime,visitorsMoney);
+        OrdersMainInfoListItem guideInfo = new OrdersMainInfoListItem(ordersID,visitorsNum,visitorsTime,visitorsMoney);
         for(int i = 0; i < 8 ; i++)
         {
             guidelist.add(guideInfo);

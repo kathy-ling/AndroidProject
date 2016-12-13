@@ -8,17 +8,23 @@ import android.graphics.drawable.Drawable;
 
 public class OrdersMainInfoListItem {
 
+    private String ordersID;  //订单编号
     private String ordersVisitorsNum;  //参观人数
     private String ordersVisitorsTime; //参观时间
     private String ordersMoney;  //订单总额
 
-    public OrdersMainInfoListItem(String ordersVisitorsNum,String ordersVisitorsTime,String ordersMoney)
+    public OrdersMainInfoListItem(String ordersID,String ordersVisitorsNum,String ordersVisitorsTime,String ordersMoney)
     {
+        this.ordersID = ordersID;
         this.ordersVisitorsNum = ordersVisitorsNum;
         this.ordersVisitorsTime = ordersVisitorsTime;
         this.ordersMoney = ordersMoney;
     }
 
+    public String getOrdersID()
+    {
+        return ordersID;
+    }
     public String getOrdersVisitorsNum()
     {
         return ordersVisitorsNum;
@@ -33,6 +39,10 @@ public class OrdersMainInfoListItem {
     }
 
 
+    public void setOrdersID(String ordersID)
+    {
+        this.ordersID = ordersID;
+    }
     public void setOrdersVisitorsNum(String ordersVisitorsNum)
     {
         this.ordersVisitorsNum = ordersVisitorsNum;

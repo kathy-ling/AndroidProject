@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.tian.tourguideproject.R;
 import com.example.tian.tourguideproject.com.example.utils.HttpUtils;
+import com.example.tian.tourguideproject.com.example.utils.JsonTools;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONException;
@@ -160,7 +162,7 @@ public class ReleaseOrderActivity extends Activity implements View.OnClickListen
                 String result = HttpUtils.queryStringForPost(url, params);
 
                 //解析获得的数据
-                String ret = releaseInfoJsonTool(result);
+                String ret = JsonTools.releaseInfoJsonTool(result);
 
 
                 if(ret.equals("1")){
@@ -193,22 +195,5 @@ public class ReleaseOrderActivity extends Activity implements View.OnClickListen
         }
     };
 
-    /**
-     * 解析服务端的结果
-     */
-    public String releaseInfoJsonTool(String str){
 
-        String result = null;
-
-        try {
-            JSONObject jsonObject = new JSONObject(str);
-            result = jsonObject.getString("result");
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-
-        return result;
-    }
 }
