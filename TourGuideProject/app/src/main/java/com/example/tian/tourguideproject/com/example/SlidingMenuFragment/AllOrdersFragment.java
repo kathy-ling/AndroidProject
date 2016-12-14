@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.tian.tourguideproject.R;
 import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.OrdersActivity;
@@ -24,7 +25,8 @@ import java.util.List;
  * Created by tian on 2016/11/23.
  */
 
-public class AllOrdersFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class AllOrdersFragment extends Fragment implements
+        OrdersGuideInfoAdapter.Callback{
 
     private ListView listView;
     private List<OrdersMainInfoListItem> ordersMainInfoList = new ArrayList<>();
@@ -39,8 +41,6 @@ public class AllOrdersFragment extends Fragment implements AdapterView.OnItemCli
 
         View view = inflater.inflate(R.layout.page_all_orders, null);
 
-        initView(view);
-
         /**获得OrderActivity中的全部订单信息*/
         OrdersActivity ordersActivity = new OrdersActivity();
         ordersMainInfoList = ordersActivity.getOrdersMainInfo();
@@ -48,25 +48,32 @@ public class AllOrdersFragment extends Fragment implements AdapterView.OnItemCli
         /**为listview传值*/
         listView = (ListView) view.findViewById(R.id.orders_all_listview);
         OrdersGuideInfoAdapter adapter = new OrdersGuideInfoAdapter(this.getActivity(),
-                R.layout.page_all_orders,ordersMainInfoList);
+                R.layout.page_all_orders,ordersMainInfoList, this);
         listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
+
         return view;
     }
 
-    /**实例化控件*/
-    private void initView(View view) {
-        ordersID = (TextView) view.findViewById(R.id.orders_main_num_id);
-        visitorNum = (TextView) view.findViewById(R.id.orders_visitors_num);
-        visitortime = (TextView) view.findViewById(R.id.orders_visitors_time);
-        ordersMoney = (TextView) view.findViewById(R.id.orders_money);
-    }
-
+    /**
+     * 接口方法，响应ListView内部的按钮点击事件
+     * @param view
+     * 跳转到相应订单的详细信息界面
+     */
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+    public void btnclickInListView(View view) {
 
-        OrdersMainInfoListItem ordersMainInfo  = ordersMainInfoList.get(i);
+//        Toast.makeText(getActivity(),
+//                        "listview的内部的按钮被点击了！，位置是-->" + (Integer) view.getTag() ,
+//                Toast.LENGTH_LONG).show();
 
+        OrdersMainInfoListItem ordersMainInfo  = ordersMainInfoList.
+                get((Integer) view.getTag());
+
+        /**
+         * ===================================
+         * 查看对应订单的详细信息
+         * 传参数：订单编号
+         */
         Intent intent = new Intent(getActivity(),OrdersDetailPayActivity.class);
         startActivity(intent);
 

@@ -14,7 +14,9 @@ public class OrdersMainInfoListItem {
     private String ordersMoney;  //订单总额
     private String ordersStatus;  //订单状态
 
-    public OrdersMainInfoListItem(String ordersID,String ordersVisitorsNum,String ordersVisitorsTime,String ordersMoney,String ordersStatus)
+    public OrdersMainInfoListItem(String ordersID,String ordersVisitorsNum,
+                                  String ordersVisitorsTime,String ordersMoney,
+                                  String ordersStatus)
     {
         this.ordersID = ordersID;
         this.ordersVisitorsNum = ordersVisitorsNum;

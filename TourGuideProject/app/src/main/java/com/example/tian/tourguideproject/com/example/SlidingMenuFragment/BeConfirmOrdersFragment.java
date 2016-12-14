@@ -18,7 +18,9 @@ public class BeConfirmOrdersFragment extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.page_to_be_confirm, null);
+        View view = inflater.inflate(R.layout.page_all_orders, null);
+
+
         return view;
     }
 }

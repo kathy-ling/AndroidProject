@@ -96,21 +96,56 @@ public class OrdersActivity extends FragmentActivity implements
         initView();
     }
 
-    /**从服务器端获取全部订单的所有信息*/
+//    /**
+//     * 根据订单的状态，从服务端获取相应的订单信息
+//     */
+//    public List<OrdersMainInfoListItem> getOrderswithStatus(){
+//
+//
+//    }
+
+    /**从服务器端获取用户全部订单的简要信息*/
     public List<OrdersMainInfoListItem> getOrdersMainInfo()
     {
         getOrdersMainThread = new Thread(new Runnable() {
             @Override
             public void run() {
+
+                ordersMainList = null;
                 Message msg = new Message();
-                String url = HttpUtils.BASE_URL + "/getReleaseOrders.do";
+
+                //是否有用户自己发布的订单
+                String urlRelease = HttpUtils.BASE_URL + "/getReleaseOrders.do";
+                //用户通过导游预定界面产生的订单
+                String urlOrder = HttpUtils.BASE_URL + "/getorderinfo.do";
 
                 List<NameValuePair> pairList = new ArrayList<NameValuePair>();
                 NameValuePair pair_usertel = new BasicNameValuePair("userPhone", usertel);
                 pairList.add(pair_usertel);
 
-                String result = HttpUtils.queryStringForPost(url,pairList);
-                ordersMainList = JsonTools.ordersMainJsonTool(result);
+                String resultRelease = HttpUtils.queryStringForPost(urlRelease,pairList);
+                String resultOrder = HttpUtils.queryStringForPost(urlOrder,pairList);
+
+                //发布的订单
+                List<OrdersMainInfoListItem> listRelease = JsonTools.
+                        ordersMainJsonTool(resultRelease);
+                //预约的订单
+                List<OrdersMainInfoListItem> listOrder = JsonTools.
+                        ordersMainJsonTool(resultOrder);
+
+                if(listOrder.size() != 0){
+                    ordersMainList = listOrder;
+                }
+                if(listRelease.size() != 0){
+                    ordersMainList = listRelease;
+                }
+                //对两类订单进行合并显示
+                if(listOrder.size() != 0 && listRelease.size() != 0){
+                    ordersMainList = listOrder;
+                    for(int i=0; i< listRelease.size(); i++){
+                        ordersMainList.add(listRelease.get(i));
+                    }
+                }
 
                 if(ordersMainList != null)
                 {
@@ -125,6 +160,7 @@ public class OrdersActivity extends FragmentActivity implements
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         return ordersMainList;
     }
 

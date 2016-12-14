@@ -1,19 +1,13 @@
 package com.example.tian.tourguideproject.com.example.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.baidu.mapapi.map.Text;
 import com.example.tian.tourguideproject.R;
-import com.example.tian.tourguideproject.com.example.SlidingMenuActivity.OrdersActivity;
 import com.example.tian.tourguideproject.com.example.bean.OrdersMainInfoListItem;
-import com.example.tian.tourguideproject.com.example.bean.SimpleGuideInfoListItem;
 
 import java.util.List;
 
@@ -29,15 +23,39 @@ public class OrdersGuideInfoAdapter extends BaseAdapter implements View.OnClickL
     private LayoutInflater inflater;
     private List<OrdersMainInfoListItem> item;
 
+    private static final String bePay = "2";  //待付款
+    private static final String beHandle = "3";  //待接单
+    private static final String beConfirm = "4";  //待确认
+    private static final String beEvaluate = "5";  //待评价
+
     private ViewHolder viewHolder;
-    public OrdersGuideInfoAdapter(Context context, int id, List<OrdersMainInfoListItem> data) {
-        this.inflater = LayoutInflater.from(context);
-        this.item = data;
+
+    /**
+     * 所有listview的item共用同一个 mCallback
+     */
+    private Callback mCallback;
+
+    /**
+     * 自定义接口，用于回调按钮点击事件到Activity
+     */
+    public interface Callback{
+        public void btnclickInListView(View view);
     }
 
+    /**
+     * 响应按钮点击事件,调用子定义接口，并传入View
+     * @param view
+     */
     @Override
     public void onClick(View view) {
+        mCallback.btnclickInListView(view);
+    }
 
+    public OrdersGuideInfoAdapter(Context context, int id, List<OrdersMainInfoListItem> data,
+                                  Callback callBack) {
+        this.inflater = LayoutInflater.from(context);
+        this.item = data;
+        mCallback = callBack;
     }
 
     @Override
@@ -56,58 +74,70 @@ public class OrdersGuideInfoAdapter extends BaseAdapter implements View.OnClickL
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
+    public View getView(int i, View convertView, ViewGroup viewGroup) {
+
         ordersMainInfo = getItem(i);
 
-        if(view == null){
-            view = inflater.inflate(R.layout.page_all_orders_item, null);
+        if(convertView == null){
+
+            viewHolder = new ViewHolder();
+            convertView = inflater.inflate(R.layout.page_all_orders_item, null);
+
+            viewHolder.ordersMainNumId = (TextView) convertView.findViewById(R.id.orders_main_num_id);
+            viewHolder.ordersVisitorsNum = (TextView) convertView.findViewById(R.id.orders_visitors_num);
+            viewHolder.ordersVisitorsTime = (TextView) convertView.findViewById(R.id.orders_visitors_time);
+            viewHolder.ordersMoney = (TextView) convertView.findViewById(R.id.orders_money);
+            viewHolder.ordersStatus = (TextView) convertView.findViewById(R.id.orders_state);
+            viewHolder.ordersStatusChanged = (TextView) convertView.findViewById(R.id.orders_state_change);
+
+            convertView.setTag(viewHolder);
         }
-        TextView ordersMainNumId = (TextView) view.findViewById(R.id.orders_main_num_id);
-        TextView ordersVisitorsNum = (TextView) view.findViewById(R.id.orders_visitors_num);
-        TextView ordersVisitorsTime = (TextView) view.findViewById(R.id.orders_visitors_time);
-        TextView ordersMoney = (TextView) view.findViewById(R.id.orders_money);
-        TextView ordersStatus = (TextView) view.findViewById(R.id.orders_state);
-        TextView ordersStatusChanged = (TextView) view.findViewById(R.id.orders_state_change);
-        TextView ordersTorB = (TextView) view.findViewById(R.id.orders_total);
+
 
         /**根据服务器返回的数据修改订单信息*/
-        ordersMainNumId.setText(ordersMainInfo.getOrdersID());
-        ordersVisitorsNum.setText(ordersMainInfo.getOrdersVisitorsNum());
-        ordersVisitorsTime.setText(ordersMainInfo.getOrdersVisitorsTime());
-        ordersMoney.setText(ordersMainInfo.getOrdersMoney());
+        viewHolder.ordersMainNumId.setText(ordersMainInfo.getOrdersID());
+        viewHolder.ordersVisitorsNum.setText(ordersMainInfo.getOrdersVisitorsNum());
+        viewHolder.ordersVisitorsTime.setText(ordersMainInfo.getOrdersVisitorsTime());
 
         /**根据服务器返回的信息修改订单状态*/
         String status = ordersMainInfo.getOrdersStatus();
-        if(status.equals("2"))
+        if(status.equals(bePay))
         {
-            ordersStatus.setText("待付款");
-            ordersStatusChanged.setText("付款");
-            ordersTorB.setText("订单预算");
+            viewHolder.ordersStatus.setText("待付款");
+            viewHolder.ordersStatusChanged.setText("付款");
         }
-        else if(status.equals("3"))
+        else if(status.equals(beHandle))
         {
-            ordersStatus.setText("待接单");
-            ordersStatusChanged.setText("下单");
-            ordersTorB.setText("订单预算");
+            viewHolder.ordersStatus.setText("待接单");
+            viewHolder.ordersStatusChanged.setText("查看");
         }
-        else if(status.equals("4"))
+        else if(status.equals(beConfirm))
         {
-            ordersStatus.setText("待确定");
-            ordersStatusChanged.setText("付款");
-            ordersTorB.setText("订单总额");
+            viewHolder.ordersStatus.setText("待确定");
+            viewHolder.ordersStatusChanged.setText("确定");
         }
-        else if(status.equals("5"))
+        else if(status.equals(beEvaluate))
         {
-            ordersStatus.setText("待评价");
-            ordersStatusChanged.setText("评价");
-            ordersTorB.setText("订单总额");
+            viewHolder.ordersStatus.setText("待评价");
+            viewHolder.ordersStatusChanged.setText("评价");
         }
 
-        return view;
+        /**设置按钮的点击事件*/
+        viewHolder.ordersStatusChanged.setOnClickListener(this);
+
+        /**设置当前按钮所在的位置*/
+        viewHolder.ordersStatusChanged.setTag(i);
+
+        return convertView;
     }
 
-    private class ViewHolder
-    {
+    private class ViewHolder {
 
+        TextView ordersMainNumId; //订单编号
+        TextView ordersVisitorsNum;  //参观人数
+        TextView ordersVisitorsTime;  //参观时间
+        TextView ordersMoney;   //订单总额/预算
+        TextView ordersStatus;    //订单状态
+        TextView ordersStatusChanged;  //根据订单状态提示相应的操作（待付款--付款）
     }
 }

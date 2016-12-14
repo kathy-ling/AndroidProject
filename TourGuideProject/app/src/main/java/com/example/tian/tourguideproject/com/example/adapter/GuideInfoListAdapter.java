@@ -15,6 +15,8 @@ import java.util.List;
 /**
  * Created by tian on 2016/11/25.
  * 预约--查看导游--导游的简要信息
+ * 导游的简要信息：头像、姓名、工作年限、自我介绍、导游费
+ *
  *
  * 使用接口回调的方式处理listview内部的点击事件
  */
@@ -121,13 +123,13 @@ public class GuideInfoListAdapter extends BaseAdapter implements View.OnClickLis
 
     private class ViewHolder{
 
-        ImageView guideImageItem;
-        TextView guideNameItem;
-        TextView guideWorkAgeItem;
-        TextView guideIntroItem;
-        TextView guidePriceItem;
-        TextView guideNumID;
-        TextView check;
+        ImageView guideImageItem;  //头像
+        TextView guideNameItem;   //姓名
+        TextView guideWorkAgeItem;  //工作年限
+        TextView guideIntroItem;  //自我介绍
+        TextView guidePriceItem;  //导游费
+        TextView guideNumID;   //导游身份证号
+        TextView check;    //查看详情‘按钮’
     }
 
 }

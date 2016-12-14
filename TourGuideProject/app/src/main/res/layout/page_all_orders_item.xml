@@ -82,10 +82,9 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/orders_total"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="订单总额："
+                    android:text="订单总额/预算："
                     android:textColor="@color/colorDark"/>
                 <TextView
                     android:id="@+id/orders_money"

@@ -202,7 +202,8 @@ public class JsonTools {
 
     /**
      * 解析服务端返回的数据
-     * 全部订单的所有数据
+     * 全部订单的简要信息
+     * 订单编号、参观人数、参观时间、订单金额/预算、订单状态
      */
     public static List<OrdersMainInfoListItem> ordersMainJsonTool(String str)
     {
@@ -214,13 +215,14 @@ public class JsonTools {
             {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
-                String bugdet = jsonObject.getString("budget");
+                String bugdet = jsonObject.getString("budgetorTotal");
                 String orderNo = jsonObject.getString("OrderNo");
                 String orderStatus = jsonObject.getString("orderStatus");
                 String personNum = jsonObject.getString("personNum");
                 String visitTime = jsonObject.getString("visitTime");
 
-                OrdersMainInfoListItem ordersMainInfo = new OrdersMainInfoListItem(orderNo,personNum,visitTime,bugdet,orderStatus);
+                OrdersMainInfoListItem ordersMainInfo = new OrdersMainInfoListItem(
+                        orderNo,personNum,visitTime,bugdet,orderStatus);
 
                 ordersMainList.add(ordersMainInfo);
             }
